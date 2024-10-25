@@ -1,0 +1,57 @@
+<!-- Modal Overlay -->
+<div
+  *ngIf="isModalOpen"
+  class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+>
+  <!-- Modal Content -->
+  <div class="bg-gray-900 rounded-lg p-8 w-full max-w-md relative">
+    <h2 class="text-2xl font-bold text-white mb-4">Connect Your Wallet</h2>
+
+    <!-- Wallet Options -->
+    <div class="flex flex-col space-y-4">
+      <button
+        class="bg-blue-600 text-white font-semibold py-2 rounded-lg hover:bg-blue-700 transition-all"
+        (click)="connectWallet('MetaMask')"
+      >
+        Connect with MetaMask
+      </button>
+      <button
+        class="bg-blue-600 text-white font-semibold py-2 rounded-lg hover:bg-blue-700 transition-all"
+        (click)="connectWallet('Coinbase Wallet')"
+      >
+        Connect with Coinbase Wallet
+      </button>
+      <button
+        class="bg-blue-600 text-white font-semibold py-2 rounded-lg hover:bg-blue-700 transition-all"
+        (click)="connectWallet('WalletConnect')"
+      >
+        Connect with WalletConnect
+      </button>
+
+      <!-- Divider -->
+      <div class="border-t border-gray-600 my-4"></div>
+
+      <!-- Email Input -->
+      <input
+        type="email"
+        placeholder="Enter your email"
+        [(ngModel)]="email"
+        class="w-full border border-gray-600 rounded-lg py-2 px-4 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+      <button
+        class="bg-green-600 text-white font-semibold py-2 rounded-lg hover:bg-green-700 transition-all mt-2"
+        (click)="loginWithEmail()"
+      >
+        Continue with Email
+      </button>
+    </div>
+
+    <!-- Close Button -->
+    <button
+      class="absolute top-4 right-4 text-gray-400 hover:text-white"
+      (click)="toggleModal()"
+    >
+      &times;
+    </button>
+  </div>
+</div>

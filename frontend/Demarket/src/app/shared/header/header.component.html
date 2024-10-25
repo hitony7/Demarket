@@ -1,12 +1,12 @@
+<!-- Main Navbar -->
 <div class="flex items-center justify-between bg-black py-4 px-4 md:px-8">
   <!-- Logo on the left -->
   <img src="/images/DeMarket.png" alt="Logo" class="h-8 ml-4 md:h-12" />
-  <!-- Adjusted height -->
 
   <!-- Navigation Links -->
   <nav class="flex items-center space-x-8 ml-6">
     <a
-      href="/listings"
+      routerLink="/listings"
       class="text-white font-semibold hover:text-gray-400 transition-colors duration-200"
       >Listings</a
     >
@@ -24,7 +24,11 @@
   <!-- Login Button on the right -->
   <button
     class="bg-blue-600 text-white font-bold py-2 px-6 rounded-full hover:bg-blue-700 transition-all duration-200"
+    (click)="toggleModal()"
   >
     Login
   </button>
 </div>
+
+<!-- LoginBox Component -->
+<app-login-box [isModalOpen]="isModalOpen"></app-login-box>

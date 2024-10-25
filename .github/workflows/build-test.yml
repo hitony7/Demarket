@@ -15,11 +15,11 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v3
 
-      # Step 2: Set up Node.js
+      # Step 2: Set up Node.js v18.19 or higher
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18.18.0' # Specify the Node.js version you are using
+          node-version: '18.19' # Update to Node.js v18.19 or higher
 
       # Step 3: Navigate to the frontend/Demarket directory
       - name: Change to frontend/Demarket directory

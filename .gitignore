@@ -13,6 +13,8 @@ yarn-error.log
 
 #angular
 .angular/
+/frontend/Demarket/dist/
+
 
 # IDEs and editors
 .idea/

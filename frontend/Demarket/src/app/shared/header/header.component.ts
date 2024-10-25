@@ -10,17 +10,32 @@ import { CommonModule } from '@angular/common';
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
-  isModalOpen = false; // Modal visibility state
-  walletAddress: string | null = null; // Store the connected wallet address
+  //State Variables
+  isModalOpen = false; // Controls modal visibility
+  isDropdownOpen = false; // Controls dropdown visibility
+  walletAddress: string | null = null; // Stores the connected wallet address
 
-  // Handle wallet connection from child component
-  handleWalletConnect(address: string) {
-    this.walletAddress = address; // Update wallet address
-  }
-
-  // Toggles the modal's visibility
+  // Toggles the login modal visibility
   toggleModal() {
     this.isModalOpen = !this.isModalOpen;
+  }
+
+  // Toggles the dropdown visibility
+  toggleDropdown() {
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
+
+  // Handles wallet connection from child component
+  handleWalletConnect(address: string) {
+    this.walletAddress = address; // Update wallet address
+    this.isModalOpen = false; // Close the modal after connection
+    this.isDropdownOpen = false; // Close the dropdown if open
+  }
+
+  // Logs out the user
+  logout() {
+    this.walletAddress = null; // Clear the wallet address
+    this.isDropdownOpen = false; // Close the dropdown
   }
 
 }

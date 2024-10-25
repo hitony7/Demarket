@@ -19,7 +19,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16' # Specify the Node.js version you are using
+          node-version: '18.18.0' # Specify the Node.js version you are using
 
       # Step 3: Navigate to the frontend/Demarket directory
       - name: Change to frontend/Demarket directory

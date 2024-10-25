@@ -1,2 +1,108 @@
 <app-header></app-header>
-<p>mainpage works!</p>
+<!-- Full-Screen Hero Section -->
+<section
+  class="hero h-screen bg-black flex items-center justify-center relative"
+>
+  <div class="text-center">
+    <h1 class="text-4xl md:text-6xl font-bold text-white mb-6">
+      Buy, Sell, and Trade with Confidence.
+    </h1>
+    <p class="text-lg md:text-xl text-gray-400 mb-12 max-w-2xl mx-auto">
+      Experience seamless, user-friendly, and secure decentralized trading
+      within the Ethereum Ecosystem. Our marketplace leverages Layer 2 solutions
+      to provide low fees and a karma-based system for trust.
+    </p>
+    <button
+      class="bg-blue-600 text-white font-bold py-3 px-8 rounded-full hover:bg-blue-700 transition-all duration-200"
+    >
+      Get Started
+    </button>
+  </div>
+
+  <!-- Scroll Down Prompt -->
+  <div
+    class="absolute bottom-24 w-full flex flex-col items-center justify-center"
+  >
+    <a
+      href="#vision-mission"
+      class="text-gray-400 hover:text-white transition-colors text-center"
+    >
+      <span class="text-sm">Scroll to learn more</span>
+      <br />
+      <div class="flex justify-center">
+        <!-- Added a flex container for centering the SVG -->
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6 mt-2 animate-bounce"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M19 9l-7 7-7-7"
+          />
+        </svg>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- Vision and Mission Section -->
+<!-- Vision and Mission Section -->
+<section
+  id="vision-mission"
+  class="bg-black text-white p-8 md:p-16 flex flex-col items-center"
+>
+  <!-- Title container -->
+  <div class="max-w-6xl text-center mb-8">
+    <h2 class="text-3xl md:text-4xl font-bold">Our Vision and Mission</h2>
+  </div>
+
+  <!-- Cards container -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl">
+    <div class="bg-gray-900 p-6 shadow-md text-center rounded-lg">
+      <h3 class="font-semibold text-xl text-white mb-2">
+        High Transaction Costs
+      </h3>
+      <p class="text-gray-300">
+        By leveraging Layer 2 solutions, users can trade assets without being
+        burdened by high Ethereum gas fees, making transactions more feasible
+        for everyone.
+      </p>
+    </div>
+
+    <div class="bg-gray-900 p-6 shadow-md text-center rounded-lg">
+      <h3 class="font-semibold text-xl text-white mb-2">Lack of Trust</h3>
+      <p class="text-gray-300">
+        The karma-based system will help create a safer environment by rewarding
+        positive actions and discouraging malicious behavior, addressing
+        concerns about trust in online decentralized commerce.
+      </p>
+    </div>
+
+    <div class="bg-gray-900 p-6 shadow-md text-center rounded-lg">
+      <h3 class="font-semibold text-xl text-white mb-2">
+        User Experience in Decentralized Platforms
+      </h3>
+      <p class="text-gray-300">
+        By focusing on ease of use, the platform aims to make decentralized
+        trading accessible to users who may find current blockchain-based
+        systems too complex.
+      </p>
+    </div>
+
+    <div class="bg-gray-900 p-6 shadow-md text-center rounded-lg">
+      <h3 class="font-semibold text-xl text-white mb-2">
+        Transparency and Security
+      </h3>
+      <p class="text-gray-300">
+        Utilizing blockchain's inherent qualities of transparency and security
+        will provide a verifiable and secure trading environment that contrasts
+        with traditional marketplaces, where trust is often opaque.
+      </p>
+    </div>
+  </div>
+</section>

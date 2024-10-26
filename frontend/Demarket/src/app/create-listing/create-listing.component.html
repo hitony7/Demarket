@@ -1,0 +1,121 @@
+<app-header></app-header>
+
+<!-- Main Container -->
+<div class="min-h-screen flex items-center justify-center bg-black text-white">
+  <div class="container mx-auto py-6 px-4">
+    <h1 class="text-4xl font-bold mb-6 text-center">Create New Listing</h1>
+
+    <!-- Form for creating a new listing -->
+    <form class="w-full max-w-lg mx-auto p-6 rounded-lg">
+      <!-- Title & Category in one row -->
+      <div class="flex flex-wrap mb-4">
+        <!-- Title -->
+        <div class="w-full md:w-1/2 pr-2 mb-4 md:mb-0">
+          <label for="title" class="block text-sm font-medium text-white"
+            >Title</label
+          >
+          <input
+            id="title"
+            type="text"
+            class="w-full px-4 py-2 border border-gray-500 rounded-lg bg-black text-white focus:outline-none focus:ring-2 focus:ring-green-500"
+            placeholder="Enter listing title"
+          />
+        </div>
+
+        <!-- Category Dropdown -->
+        <div class="w-full md:w-1/2 pl-2">
+          <label for="category" class="block text-sm font-medium text-white"
+            >Category</label
+          >
+          <select
+            id="category"
+            class="w-full px-4 py-2 border border-gray-500 rounded-lg bg-black text-white focus:outline-none focus:ring-2 focus:ring-green-500"
+          >
+            <option value="" disabled selected>Select Category</option>
+            <option value="electronics">Electronics</option>
+            <option value="fashion">Fashion</option>
+            <option value="home-garden">Home & Garden</option>
+            <option value="sports">Sports</option>
+            <option value="health-beauty">Health & Beauty</option>
+            <option value="toys">Toys</option>
+            <option value="automotive">Automotive</option>
+            <option value="books">Books</option>
+            <option value="music">Music</option>
+            <option value="art">Art</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="mb-4">
+        <label for="description" class="block text-sm font-medium text-white"
+          >Description</label
+        >
+        <textarea
+          id="description"
+          rows="4"
+          class="w-full px-4 py-2 border border-gray-500 rounded-lg bg-black text-white focus:outline-none focus:ring-2 focus:ring-green-500"
+          placeholder="Enter description"
+        ></textarea>
+      </div>
+
+      <!-- Image Upload -->
+      <div class="mb-4">
+        <label for="image" class="block text-sm font-medium text-white"
+          >Upload Image</label
+        >
+        <input
+          id="image"
+          type="file"
+          class="w-full px-4 py-2 border border-gray-500 rounded-lg bg-black text-white focus:outline-none focus:ring-2 focus:ring-green-500"
+          accept="image/*"
+        />
+      </div>
+
+      <!-- Price & Currency in one row -->
+      <div class="flex flex-wrap mb-4">
+        <!-- Price Input -->
+        <div class="w-full md:w-1/2 pr-2 mb-4 md:mb-0">
+          <label for="price" class="block text-sm font-medium text-white"
+            >Price</label
+          >
+          <input
+            id="price"
+            type="number"
+            step="0.01"
+            class="w-full px-4 py-2 border border-gray-500 rounded-l-lg bg-black text-white focus:outline-none focus:ring-2 focus:ring-green-500"
+            placeholder="Enter price"
+          />
+        </div>
+
+        <!-- Currency Dropdown -->
+        <div class="w-full md:w-1/2 pl-2">
+          <label for="currency" class="block text-sm font-medium text-white"
+            >Currency</label
+          >
+          <select
+            id="currency"
+            class="w-full px-4 py-2 border border-gray-500 rounded-r-lg bg-black text-white focus:outline-none focus:ring-2 focus:ring-green-500"
+          >
+            <option value="ETH">ETH</option>
+            <option value="USDC">USDC</option>
+            <option value="USDT">USDT</option>
+            <option value="DAI">DAI</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="text-center">
+        <button
+          type="submit"
+          class="bg-green-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-green-700 transition-all duration-200"
+        >
+          Submit Listing
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<app-footer></app-footer>

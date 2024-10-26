@@ -1,20 +1,30 @@
-import { Component } from '@angular/core';
-import { LoginBoxComponent } from '../loginbox/loginbox.component';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule} from '@angular/router';
+import { RouterModule } from '@angular/router';
+import { LoginBoxComponent } from '../loginbox/loginbox.component';
+import { WalletService } from '../../wallet.service';
 
 @Component({
   selector: 'app-header',
   standalone: true,
   imports: [LoginBoxComponent, CommonModule, RouterModule],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.scss'
+  styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent {
-  //State Variables
-  isModalOpen = false; // Controls modal visibility
+export class HeaderComponent implements OnInit {
+  // State Variables
+  isModalOpen = false; // Controls login modal visibility
   isDropdownOpen = false; // Controls dropdown visibility
   walletAddress: string | null = null; // Stores the connected wallet address
+
+  constructor(private walletService: WalletService) {}
+
+  ngOnInit(): void {
+    // Subscribe to wallet address changes
+    this.walletService.walletAddress$.subscribe(address => {
+      this.walletAddress = address;
+    });
+  }
 
   // Toggles the login modal visibility
   toggleModal() {
@@ -26,17 +36,16 @@ export class HeaderComponent {
     this.isDropdownOpen = !this.isDropdownOpen;
   }
 
-  // Handles wallet connection from child component
+  // Handles wallet connection from LoginBoxComponent
   handleWalletConnect(address: string) {
-    this.walletAddress = address; // Update wallet address
-    this.isModalOpen = false; // Close the modal after connection
-    this.isDropdownOpen = false; // Close the dropdown if open
+    this.walletService.setWalletAddress(address); // Use service to set wallet address
+    this.isModalOpen = false;
+    this.isDropdownOpen = false;
   }
 
   // Logs out the user
   logout() {
-    this.walletAddress = null; // Clear the wallet address
-    this.isDropdownOpen = false; // Close the dropdown
+    this.walletService.clearWalletAddress(); // Use service to clear wallet address
+    this.isDropdownOpen = false;
   }
-
 }

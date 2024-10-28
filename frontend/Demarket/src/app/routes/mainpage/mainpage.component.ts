@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { HeaderComponent } from '../shared/header/header.component';
-import { FooterComponent } from '../shared/footer/footer.component';
+import { FooterComponent } from '../../shared/ui/footer/footer.component';
+import { HeaderComponent } from '../../shared/ui/header/header.component';
 
 @Component({
   selector: 'app-mainpage',

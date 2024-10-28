@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ethers, BrowserProvider, JsonRpcSigner } from 'ethers';
+import { WalletService } from '../../services/wallet.service'; // Import the WalletService
 
 @Component({
   selector: 'app-login-box',
@@ -16,6 +17,8 @@ export class LoginBoxComponent {
   email = '';
   provider: BrowserProvider | null = null;
 
+  constructor(private walletService: WalletService) {}
+
   // Toggles the modal's visibility
   toggleModal() {
     this.isModalOpen = !this.isModalOpen;
@@ -28,7 +31,6 @@ export class LoginBoxComponent {
     } else {
       console.log(`${walletName} connection not implemented.`);
     }
-    this.toggleModal(); // Close the modal after connection attempt
   }
 
   // Connect to MetaMask using MetaMask's built-in account selection window
@@ -39,11 +41,14 @@ export class LoginBoxComponent {
         this.provider = new ethers.BrowserProvider((window as any).ethereum);
 
         // Request for account selection in MetaMask
-        await (window as any).ethereum.request({ method: 'wallet_requestPermissions', params: [{ eth_accounts: {} }] });
+        await (window as any).ethereum.request({
+          method: 'wallet_requestPermissions',
+          params: [{ eth_accounts: {} }],
+        });
 
         // Explicitly await the eth_requestAccounts call
         const accounts = await this.provider.send('eth_requestAccounts', []);
-        
+
         if (accounts.length > 0) {
           const selectedAddress = accounts[0]; // Use the first selected account
           console.log(`Connected with MetaMask account: ${selectedAddress}`);
@@ -52,16 +57,22 @@ export class LoginBoxComponent {
           const signer: JsonRpcSigner = await this.provider.getSigner();
           const address = await signer.getAddress();
 
-          // Emit the connected wallet address
+          // Emit and save the connected wallet address
           this.walletConnected.emit(address);
+          this.walletService.setWalletAddress(address); // Save address to service
+                   
+
 
           // Prompt for signature request
           await this.requestSignature(signer, address);
+
+          this.isModalOpen = false; // Close the modal
         } else {
           alert('No MetaMask accounts selected.');
         }
       } catch (error) {
         console.error('MetaMask connection failed:', error);
+        alert('MetaMask connection failed.');
       }
     } else {
       alert('MetaMask is not installed. Please install MetaMask and try again.');
@@ -75,7 +86,7 @@ export class LoginBoxComponent {
       Signature request
       Only confirm this message if you approve the content and trust the requesting site.
 
-      Request from: opensea.io
+      Request from: DeMarket
       Message: 
       Welcome to DeMarket!
       Click to sign in and accept the DeMarket Terms of Service and Privacy Policy.
@@ -105,6 +116,6 @@ export class LoginBoxComponent {
   // Handles email login
   loginWithEmail() {
     console.log(`Logging in with email: ${this.email}`);
-    this.toggleModal(); // Close the modal after input
+    this.isModalOpen = false; // Close the modal after input
   }
 }

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { LoginBoxComponent } from '../loginbox/loginbox.component';
-import { WalletService } from '../../wallet.service';
+import { LoginBoxComponent } from '../../ui/loginbox/loginbox.component';
+import { WalletService } from '../../services/wallet.service';
 
 @Component({
   selector: 'app-header',

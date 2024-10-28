@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ethers, BrowserProvider, JsonRpcSigner } from 'ethers';
-import { WalletService } from '../../wallet.service'; // Import the WalletService
+import { WalletService } from '../../services/wallet.service'; // Import the WalletService
 
 @Component({
   selector: 'app-login-box',

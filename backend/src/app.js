@@ -15,6 +15,12 @@ mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('Connected to MongoDB'))
   .catch((err) => console.error('MongoDB connection error:', err));
 
+// Global logging middleware
+app.use((req, res, next) => {
+  console.log(`Received request: ${req.method} ${req.originalUrl}`);
+  next(); // Pass control to the next middleware function
+});
+
 // Routes base route is /api 
 app.use('/api', require('./routes'));
 

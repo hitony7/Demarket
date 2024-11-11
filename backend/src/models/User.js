@@ -1,4 +1,4 @@
-// models/userModel.js
+// models/user.js
 
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
@@ -6,18 +6,20 @@ const bcrypt = require('bcrypt');
 // Define the User Schema
 const userSchema = new mongoose.Schema(
   {
-    _id: { type: mongoose.Schema.Types.ObjectId, auto: true }, // Automatically generated ObjectId
-    username: { type: String, unique: true }, // Unique username
-    password: { type: String }, // Hashed password
-    email: { type: String, unique: true }, // Unique email
-    usertype: { type: String, enum: ['normal', 'admin'], default: 'normal' }, // User type
-    wallet: { type: [String], default: [] }, // Array of public wallet addresses
-    nonce: { type: String }, // Add nonce field
+    _id: { type: mongoose.Schema.Types.ObjectId, auto: true },
+    username: { type: String, unique: true },
+    password: { type: String },
+    email: {
+      type: String,
+      unique: true,
+      sparse: true, // Allows multiple null values without violating unique constraint
+    },
+    usertype: { type: String, enum: ['normal', 'admin'], default: 'normal' },
+    wallet: { type: [String], default: [] },
+    nonce: { type: String },
   },
-  { timestamps: true } // Automatically add createdAt and updatedAt fields
+  { timestamps: true, collection: 'users' } // Adds explicit collection name
 );
-
-
 
 // Custom validation to ensure either username/password or wallet is provided
 userSchema.pre('validate', function (next) {
@@ -39,6 +41,26 @@ userSchema.pre('save', async function (next) {
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
   }
+  next();
+});
+
+// Pre-save middleware to generate a unique username if it's missing
+userSchema.pre('save', async function (next) {
+  if (!this.username) {
+    // Generate a unique username based on timestamp and a random suffix
+    let username;
+    let usernameExists = true;
+
+    while (usernameExists) {
+      username = `user_${Date.now().toString(36)}_${Math.floor(Math.random() * 1000)}`;
+      // Check if the generated username already exists in the database
+      const existingUser = await mongoose.models.User.findOne({ username });
+      usernameExists = !!existingUser;
+    }
+
+    this.username = username; // Assign the generated unique username
+  }
+
   next();
 });
 

@@ -1,5 +1,3 @@
-// models/listingModel.js
-
 const mongoose = require('mongoose');
 
 const listingSchema = new mongoose.Schema(
@@ -67,7 +65,9 @@ const listingSchema = new mongoose.Schema(
         return ret;
       },
     },
+    collection: 'listings', // Explicit collection name
   }
 );
 
+// Export the Listing model
 module.exports = mongoose.model('Listing', listingSchema);

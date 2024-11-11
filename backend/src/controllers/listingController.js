@@ -1,6 +1,6 @@
 // controllers/listingController.js
 
-const Listing = require('../models/listingmodel');
+const Listing = require('../models/listings');
 
 /**
  * Create a new listing

@@ -1,11 +1,11 @@
-// controllers/authController.js
-
 const User = require('../models/user');
 const crypto = require('crypto');
 const ethUtil = require('ethereumjs-util');
 const jwt = require('jsonwebtoken');
+const { ethers } = require('ethers'); // Import ethers.js
 
-
+// Temporary private key for testing purposes (do not use in production)
+const TEST_PRIVATE_KEY = process.env.PRIVATE_KEY_DEV; // Replace with an actual private key for testing
 
 
 exports.requestNonce = async (req, res) => { 
@@ -53,14 +53,12 @@ exports.requestNonce = async (req, res) => {
   }
 };
 
-
 exports.verifySignature = async (req, res) => {
   console.log("Received request to verify signature");
 
   const { walletAddress, signature } = req.body;
-
-  // Log the incoming request data
-  console.log("Request body:", req.body);
+  console.log("Provided Wallet Address:", walletAddress);
+  console.log("Provided Signature:", signature);
 
   if (!walletAddress || !signature) {
     console.error("Missing wallet address or signature");
@@ -69,22 +67,20 @@ exports.verifySignature = async (req, res) => {
 
   try {
     // Find the user by wallet address
-    console.log("Searching for user with wallet address:", walletAddress.toLowerCase());
-    const user = await User.findOne({ wallet: walletAddress.toLowerCase() });
+    const normalizedAddress = walletAddress.toLowerCase();
+    console.log("Searching for user with normalized address:", normalizedAddress);
+    const user = await User.findOne({ wallet: normalizedAddress });
 
     if (!user || !user.nonce) {
       console.error("User not found or nonce missing");
       return res.status(400).json({ message: 'User not found or nonce missing' });
     }
-    
-    console.log("User found:", user);
 
     const message = `I am signing my one-time nonce: ${user.nonce}`;
     console.log("Message to be hashed:", message);
 
-    // Hash the message
-    const msgBuffer = Buffer.from(message);
-    const msgHash = ethUtil.hashPersonalMessage(msgBuffer);
+    // Hash the original message
+    const msgHash = ethUtil.hashPersonalMessage(Buffer.from(message));
     console.log("Message hash:", msgHash.toString('hex'));
 
     // Extract the signature parameters
@@ -92,7 +88,7 @@ exports.verifySignature = async (req, res) => {
     const signatureParams = ethUtil.fromRpcSig(signatureBuffer);
     console.log("Signature parameters:", signatureParams);
 
-    // Get the public key
+    // Recover public key
     const publicKey = ethUtil.ecrecover(
       msgHash,
       signatureParams.v,
@@ -103,15 +99,15 @@ exports.verifySignature = async (req, res) => {
 
     // Convert public key to address
     const addressBuffer = ethUtil.publicToAddress(publicKey);
-    const address = ethUtil.bufferToHex(addressBuffer);
-    console.log("Recovered address from signature:", address);
+    const recoveredAddress = ethUtil.bufferToHex(addressBuffer);
+    console.log("Recovered address from signature:", recoveredAddress);
 
     // Compare the recovered address with the provided wallet address
-    if (address.toLowerCase() !== walletAddress.toLowerCase()) {
+    if (recoveredAddress.toLowerCase() !== normalizedAddress) {
       console.error("Signature verification failed: Addresses do not match");
       return res.status(401).json({ message: 'Signature verification failed' });
     }
-    
+
     console.log("Signature verification successful");
 
     // Signature is valid, generate JWT
@@ -130,6 +126,33 @@ exports.verifySignature = async (req, res) => {
     res.status(200).json({ token });
   } catch (error) {
     console.error("Error during signature verification:", error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+
+// Generates a signature for the provided nonce using the test private key (for testing purposes only)
+exports.generateSignatureForTesting = async (req, res) => {
+  const { nonce } = req.body;
+
+  if (!nonce) {
+    return res.status(400).json({ message: 'Nonce is required to generate a signature' });
+  }
+
+  try {
+    const wallet = new ethers.Wallet(TEST_PRIVATE_KEY);
+    console.log("Derived Wallet Address from Private Key:", wallet.address);
+
+    const message = `I am signing my one-time nonce: ${nonce}`;
+    console.log("Message to be signed:", message);
+
+    // Sign the original message string, allowing ethers.js to handle hashing
+    const signature = await wallet.signMessage(message);
+    console.log("Generated signature:", signature);
+
+    res.status(200).json({ signature });
+  } catch (error) {
+    console.error("Error generating signature:", error);
     res.status(500).json({ message: 'Server error' });
   }
 };

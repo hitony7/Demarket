@@ -19,18 +19,22 @@ exports.createListing = async (req, res) => {
       bidDuration,
     } = req.body;
 
-    // Validate required fields
-    if (
-      !title ||
-      !category ||
-      !description ||
-      !image ||
-      price === undefined ||
-      price === null ||
-      !currency ||
-      !saleType
-    ) {
-      return res.status(400).json({ message: 'All required fields must be provided' });
+
+    // Collect missing required fields
+    const missingFields = [];
+    if (!title) missingFields.push('title');
+    if (!category) missingFields.push('category');
+    if (!description) missingFields.push('description');
+    if (price === undefined || price === null) missingFields.push('price');
+    if (!currency) missingFields.push('currency');
+    if (!saleType) missingFields.push('saleType');
+
+    // If there are missing fields, return an error response
+    if (missingFields.length > 0) {
+      return res.status(400).json({
+        message: 'All required fields must be provided',
+        missingFields,
+      });
     }
 
     // Additional validation for bidDuration when saleType is 'bid'
@@ -43,7 +47,7 @@ exports.createListing = async (req, res) => {
       title,
       category,
       description,
-      image,
+      image: image || null,
       price,
       currency,
       saleType,

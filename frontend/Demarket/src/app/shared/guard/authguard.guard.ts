@@ -12,7 +12,6 @@ export class AuthGuard implements CanActivate {
     // Check if running in the browser environment and localStorage is accessible
     if (typeof window !== 'undefined' && localStorage) {
       const walletAddress = localStorage.getItem('walletAddress');
-      console.log(walletAddress + " guard");
 
       if (walletAddress) {
         return true; // Allow navigation if the wallet is connected

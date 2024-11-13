@@ -7,6 +7,7 @@ const Listing = require('../models/listings');
  * POST /api/listings
  */
 exports.createListing = async (req, res) => {
+  console.log("Received request body:", req.body);
   try {
     const {
       title,

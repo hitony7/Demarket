@@ -17,8 +17,8 @@ const listingSchema = new mongoose.Schema(
       required: [true, 'Description is required'],
     },
     image: {
-      type: String, // URL or file path of the uploaded image
-      required: [true, 'Image is required'],
+      type: String, // URL or file path of the uploaded image IPFS ADD LATER 
+      required: [false, 'Image is required'],
     },
     price: {
       type: Number,

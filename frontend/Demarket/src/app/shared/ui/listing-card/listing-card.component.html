@@ -1,0 +1,22 @@
+<div
+  class="aspect-w-3 aspect-h-4 bg-gray-800 text-white rounded-lg shadow-lg p-4 mx-auto w-full max-w-md h-96 cursor-pointer"
+  (click)="goToListing(listing.id)"
+>
+  <!-- Display listing image or placeholder if no image is available -->
+  <div
+    class="h-[70%] bg-gray-700 rounded mb-3"
+    [ngStyle]="{
+      'background-image': listing.image ? 'url(' + listing.image + ')' : '',
+      'background-size': 'cover',
+      'background-position': 'center'
+    }"
+  ></div>
+
+  <!-- Title -->
+  <h2 class="text-md font-semibold mb-1">{{ listing.title }}</h2>
+
+  <!-- Price and Currency -->
+  <p class="text-sm text-gray-300">
+    Price: {{ listing.price }} {{ listing.currency }}
+  </p>
+</div>

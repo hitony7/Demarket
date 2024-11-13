@@ -24,36 +24,16 @@
 </div>
 
 <!-- Listings Grid -->
-
 <div
   *ngIf="listings && listings.length > 0; else noListings"
   class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-6 gap-x-6 px-32 p-6 bg-black min-h-screen"
 >
-  <div
+  <app-listing-card
     *ngFor="let listing of listings"
-    class="aspect-w-3 aspect-h-4 bg-gray-800 text-white rounded-lg shadow-lg p-4 mx-auto w-full max-w-md h-96"
-  >
-    <!-- Display listing image or placeholder if no image is available -->
-    <div
-      class="h-[70%] bg-gray-700 rounded mb-3"
-      [ngStyle]="{
-        'background-image': listing.image ? 'url(' + listing.image + ')' : '',
-        'background-size': 'cover',
-        'background-position': 'center'
-      }"
-      [style.backgroundColor]="listing.image ? '' : 'white'"
-    ></div>
-
-    <!-- Title -->
-    <h2 class="text-md font-semibold mb-1">{{ listing.title }}</h2>
-
-    <!-- Price and Currency -->
-    <p class="text-sm text-gray-300">
-      Price: {{ listing.price }} {{ listing.currency }}
-    </p>
-  </div>
+    [listing]="listing"
+    [goToListing]="goToListing"
+  ></app-listing-card>
 </div>
-
 <!-- No Listings Message -->
 <ng-template #noListings>
   <p class="text-center text-gray-400">No listings available.</p>

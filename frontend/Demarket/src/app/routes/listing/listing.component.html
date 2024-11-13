@@ -1,0 +1,27 @@
+<app-header></app-header>
+<div class="bg-black text-white min-h-screen p-6">
+  <div class="max-w-3xl mx-auto bg-gray-800 p-6 rounded-lg shadow-lg">
+    <!-- Item Image -->
+    <div
+      class="h-64 bg-gray-700 rounded mb-6"
+      [ngStyle]="{
+        'background-image': item.image ? 'url(' + item.image + ')' : '',
+        'background-size': 'cover',
+        'background-position': 'center'
+      }"
+      [style.backgroundColor]="item.image ? '' : 'white'"
+    ></div>
+
+    <!-- Item Title -->
+    <h1 class="text-3xl font-bold mb-2">{{ item.title }}</h1>
+
+    <!-- Item Description -->
+    <p class="text-gray-300 mb-4">{{ item.description }}</p>
+
+    <!-- Item Price -->
+    <p class="text-xl font-semibold">
+      Price: {{ item.price }} {{ item.currency }}
+    </p>
+  </div>
+</div>
+<app-footer></app-footer>

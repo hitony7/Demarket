@@ -20,15 +20,43 @@
   <a href="#" class="m-2 px-4 py-2 hover:bg-gray-700 rounded">Books</a>
   <a href="#" class="m-2 px-4 py-2 hover:bg-gray-700 rounded">Music</a>
   <a href="#" class="m-2 px-4 py-2 hover:bg-gray-700 rounded">Art</a>
+  <a href="#" class="m-2 px-4 py-2 hover:bg-gray-700 rounded">Other</a>
 </div>
 
-<!-- Main Container -->
+<!-- Listings Grid -->
+
 <div
-  class="flex flex-col items-center justify-center min-h-screen bg-black text-white p-6"
+  *ngIf="listings && listings.length > 0; else noListings"
+  class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-6 gap-x-6 px-32 p-6 bg-black min-h-screen"
 >
-  <!-- Listings Page Content -->
-  <h1 class="text-4xl md:text-6xl font-bold mb-4">Listings Page</h1>
-  <p class="text-lg md:text-xl text-gray-300 mb-8">Listing page works!</p>
+  <div
+    *ngFor="let listing of listings"
+    class="aspect-w-3 aspect-h-4 bg-gray-800 text-white rounded-lg shadow-lg p-4 mx-auto w-full max-w-md h-96"
+  >
+    <!-- Display listing image or placeholder if no image is available -->
+    <div
+      class="h-[70%] bg-gray-700 rounded mb-3"
+      [ngStyle]="{
+        'background-image': listing.image ? 'url(' + listing.image + ')' : '',
+        'background-size': 'cover',
+        'background-position': 'center'
+      }"
+      [style.backgroundColor]="listing.image ? '' : 'white'"
+    ></div>
+
+    <!-- Title -->
+    <h2 class="text-md font-semibold mb-1">{{ listing.title }}</h2>
+
+    <!-- Price and Currency -->
+    <p class="text-sm text-gray-300">
+      Price: {{ listing.price }} {{ listing.currency }}
+    </p>
+  </div>
 </div>
+
+<!-- No Listings Message -->
+<ng-template #noListings>
+  <p class="text-center text-gray-400">No listings available.</p>
+</ng-template>
 
 <app-footer></app-footer>

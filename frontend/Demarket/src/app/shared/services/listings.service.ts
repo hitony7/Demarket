@@ -19,4 +19,9 @@ export class ListingService {
     });
     return this.http.post(`${this.apiUrl}`, formData, { headers });
   }
+
+    // Get all listings
+    getListings(): Observable<any> {
+      return this.http.get(this.apiUrl);
+    }
 }

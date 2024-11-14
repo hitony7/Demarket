@@ -19,6 +19,7 @@ const userSchema = new mongoose.Schema(
     nonce: { type: String },
     bio: { type: String },
     links: { type: String },
+    rep: { type: Number, default: 0}
   },
   { timestamps: true, collection: 'users' } // Adds explicit collection name
 );

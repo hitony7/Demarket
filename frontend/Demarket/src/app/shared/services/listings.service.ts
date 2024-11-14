@@ -24,4 +24,8 @@ export class ListingService {
     getListings(): Observable<any> {
       return this.http.get(this.apiUrl);
     }
+
+    getListingById(id: string): Observable<any> {
+      return this.http.get(`${this.apiUrl}/${id}`); // Use template literals for URL
+    }
 }

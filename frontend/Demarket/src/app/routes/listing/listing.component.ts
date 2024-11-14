@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FooterComponent } from '../../shared/ui/footer/footer.component';
 import { HeaderComponent } from '../../shared/ui/header/header.component';
 import { CommonModule } from '@angular/common';
+import { ListingService } from '../../shared/services/listings.service';
 
 
 @Component({
@@ -15,31 +16,28 @@ import { CommonModule } from '@angular/common';
   styleUrl: './listing.component.scss'
 })
 export class ListingComponent implements OnInit {
-
   itemId!: string;
   item: any;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private listingService: ListingService) {}
 
   ngOnInit(): void {
-    // Get the item id from the route
+    // Get the item ID from the route
     this.itemId = this.route.snapshot.paramMap.get('id')!;
     
-    // Replace this with a service call to fetch the item by ID
+    // Fetch the item details using the service
     this.fetchListingDetails(this.itemId);
   }
 
   fetchListingDetails(id: string) {
-    // This is a placeholder for the actual data fetching logic.
-    // Replace with service that fetches item details based on id.
-    this.item = {
-      id: id,
-      title: 'Sample Item',
-      description: 'This is a detailed description of the item.',
-      price: '100',
-      currency: 'USD',
-      image: 'path/to/image.jpg',
-    };
+    // Use the listing service to fetch item details based on ID
+    this.listingService.getListingById(id).subscribe({
+      next: (data) => {
+        this.item = data;
+      },
+      error: (err) => {
+        console.error('Error fetching listing details:', err);
+      }
+    });
   }
-
 }

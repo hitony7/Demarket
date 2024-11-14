@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const listingRoutes = require('./listingRoutes');
 const authRoutes = require('./authRoutes');
+const userRoutes = require('./userRoutes');
 
 
 // Import other route files here
@@ -20,5 +21,8 @@ router.get('/', (req, res) => {
 
 // Use '/auth' as the route prefix
  router.use('/auth', authRoutes);
+
+ //Use '/users' as the route prefix 
+ router.use('/users', userRoutes );
 
 module.exports = router;

@@ -8,15 +8,17 @@ const userSchema = new mongoose.Schema(
   {
     _id: { type: mongoose.Schema.Types.ObjectId, auto: true },
     username: { type: String, unique: true },
-    password: { type: String },
+    password: { type: String }, //Hashed
     email: {
       type: String,
       unique: true,
       sparse: true, // Allows multiple null values without violating unique constraint
     },
     usertype: { type: String, enum: ['normal', 'admin'], default: 'normal' },
-    wallet: { type: [String], default: [] },
+    wallet: { type: [String], default: [] },  //Enforce Uniqueness Later if needed
     nonce: { type: String },
+    bio: { type: String },
+    links: { type: String },
   },
   { timestamps: true, collection: 'users' } // Adds explicit collection name
 );

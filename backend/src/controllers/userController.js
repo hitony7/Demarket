@@ -55,7 +55,28 @@ exports.getUserById = async (req, res) => {
       res.status(500).json({ message: 'Server error' });
     }
   };
-  
+
+
+// @desc    Get specific user by wallet address (Public version)
+// @route   GET /api/users/by-wallet/:walletAddress
+// @access  Public
+exports.getUserByWalletAddressPublic = async (req, res) => {
+  try {
+      const walletAddress = req.params.walletAddress.toLowerCase(); // Normalize to lowercase
+      
+      // Finds any user document where `wallet` contains the `walletAddress`
+      const user = await User.findOne({ wallet: walletAddress }).select('-password');
+
+      if (!user) {
+          return res.status(404).json({ message: 'User not found' });
+      }
+
+      res.json(user);
+  } catch (error) {
+      console.error('Error fetching user by wallet address:', error);
+      res.status(500).json({ message: 'Server error' });
+  }
+};
 
 
   exports.updateUserById = async (req, res) => {

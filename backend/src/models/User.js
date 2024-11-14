@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema(
       unique: true,
       sparse: true, // Allows multiple null values without violating unique constraint
     },
-    usertype: { type: String, enum: ['normal', 'admin'], default: 'normal' },
+    usertype: { type: String, enum: ['normal', 'admin', ], default: 'normal' },
     wallet: { type: [String], default: [] },  //Enforce Uniqueness Later if needed
     nonce: { type: String },
     bio: { type: String },
@@ -23,6 +23,9 @@ const userSchema = new mongoose.Schema(
   },
   { timestamps: true, collection: 'users' } // Adds explicit collection name
 );
+
+// Add an index to `wallet` for faster querying by wallet address
+userSchema.index({ wallet: 1 });
 
 // Custom validation to ensure either username/password or wallet is provided
 userSchema.pre('validate', function (next) {

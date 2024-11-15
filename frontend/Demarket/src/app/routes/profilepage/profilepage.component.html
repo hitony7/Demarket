@@ -1,0 +1,47 @@
+<app-header></app-header>
+
+<div
+  class="profile bg-black text-white min-h-screen flex flex-col items-center p-8"
+>
+  <!-- Profile Icon Placeholder -->
+  <div class="flex flex-col items-center mb-6">
+    <div
+      class="w-24 h-24 bg-gray-700 rounded-full mb-4 flex items-center justify-center text-xl font-bold"
+    >
+      Icon
+    </div>
+    <h1 class="text-4xl font-bold mb-2">{{ userName || "User Name" }}</h1>
+  </div>
+
+  <!-- Profile Details -->
+  <div class="w-full max-w-2xl text-center">
+    <p class="text-lg">
+      <strong>Wallet Address:</strong> {{ wallet || "N/A" }}
+    </p>
+    <p class="text-lg"><strong>Rep Score:</strong> {{ rep }}</p>
+    <p class="text-lg">
+      <strong>Date Joined:</strong> {{ dateJoined | date : "longDate" }}
+    </p>
+    <p class="text-lg"><strong>Bio:</strong> {{ bio || "No bio available" }}</p>
+    <p class="text-lg">
+      <strong>Links:</strong>
+      <a [href]="links" target="_blank" class="text-blue-400">{{ links }}</a>
+    </p>
+  </div>
+
+  <!-- Buttons for Listings and Activity -->
+  <div class="flex gap-4 mt-6">
+    <button
+      class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-lg shadow-md transition-colors duration-200"
+    >
+      View Listings
+    </button>
+    <button
+      class="bg-green-600 hover:bg-green-700 text-white py-2 px-6 rounded-lg shadow-md transition-colors duration-200"
+    >
+      View Activity
+    </button>
+  </div>
+</div>
+
+<app-footer></app-footer>

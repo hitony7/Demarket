@@ -29,26 +29,15 @@
         [href]="formatExternalLink(links)"
         target="_blank"
         rel="noopener noreferrer"
-        class="text-blue-400"
+        class="text-blue-400 hover:underline"
       >
         {{ links }}
       </a>
     </p>
   </div>
 
-  <!-- Buttons for Listings and Activity -->
-  <div class="flex gap-4 mt-6">
-    <button
-      class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-lg shadow-md transition-colors duration-200"
-    >
-      View Listings
-    </button>
-    <button
-      class="bg-green-600 hover:bg-green-700 text-white py-2 px-6 rounded-lg shadow-md transition-colors duration-200"
-    >
-      View Activity
-    </button>
-  </div>
+  <!-- User Listings -->
+  <app-user-listings [userId]="userId"></app-user-listings>
 </div>
 
 <app-footer></app-footer>

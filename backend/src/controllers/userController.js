@@ -1,5 +1,6 @@
 // /controllers/userController.js
 const User = require('../models/user');
+const Listing = require('../models/listings')
 const jwt = require('jsonwebtoken');
 
 // @desc    Get specific user by ID (Protected version)
@@ -79,6 +80,31 @@ exports.getUserByWalletAddressPublic = async (req, res) => {
   } catch (error) {
       console.error('Error fetching user by wallet address:', error);
       res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// @desc    Get all listings by User ID
+// @route   GET /api/users/:id/listings
+// @access  Public
+exports.getAllListingsByUserId = async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    console.log("Fetching listings for user ID:", userId);
+
+    // Find all listings associated with the user ID
+    const listings = await Listing.find({ sellerId: userId });
+
+    if (!listings || listings.length === 0) {
+      console.warn(`No listings found for user ID: ${userId}`);
+      return res.status(404).json({ message: 'No listings found for this user.' });
+    }
+
+    console.log("Listings retrieved:", listings);
+    res.json(listings);
+  } catch (error) {
+    console.error("Error fetching listings by user ID:", error);
+    res.status(500).json({ message: 'Server error' });
   }
 };
 

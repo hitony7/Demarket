@@ -9,6 +9,7 @@ import { environment } from '../../../environment/environment'; // Import the en
 })
 export class ListingService {
   private apiUrl = `${environment.apiBaseUrl}/api/listing`;
+  private apiUrlUser = `${environment.apiBaseUrl}/api/users`;
 
   constructor(private http: HttpClient) {}
 
@@ -24,8 +25,14 @@ export class ListingService {
     getListings(): Observable<any> {
       return this.http.get(this.apiUrl);
     }
-
+    //Single Listing
     getListingById(id: string): Observable<any> {
       return this.http.get(`${this.apiUrl}/${id}`); // Use template literals for URL
     }
+    
+    //Get All listing by User ID 
+    getListingsByUserId(id :string): Observable<any> {
+      return this.http.get(`${this.apiUrlUser}/${id}/listings`);
+
+    } 
 }

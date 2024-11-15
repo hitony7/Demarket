@@ -25,7 +25,14 @@
     <p class="text-lg"><strong>Bio:</strong> {{ bio || "No bio available" }}</p>
     <p class="text-lg">
       <strong>Links:</strong>
-      <a [href]="links" target="_blank" class="text-blue-400">{{ links }}</a>
+      <a
+        [href]="formatExternalLink(links)"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-blue-400"
+      >
+        {{ links }}
+      </a>
     </p>
   </div>
 

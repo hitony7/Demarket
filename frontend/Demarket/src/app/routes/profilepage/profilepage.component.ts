@@ -50,4 +50,14 @@ export class ProfilepageComponent implements OnInit {
       console.error('No user ID provided in route parameters');
     }
   }
+
+
+
+  formatExternalLink(link: string | undefined): string {
+    if (!link) {
+      return '#'; // Return a fallback if the link is undefined
+    }
+    // Add "https://" if the link doesn't start with a protocol
+    return link.startsWith('http://') || link.startsWith('https://') ? link : `https://${link}`;
+  }
 }

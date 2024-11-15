@@ -22,6 +22,7 @@ export class ProfilepageComponent implements OnInit {
   dateJoined: Date | undefined;
   bio: string | undefined;
   links: string | undefined;
+  activeTab: string | undefined;
 
 
   constructor(private userService: UserService, private route: ActivatedRoute) {}
@@ -55,6 +56,11 @@ export class ProfilepageComponent implements OnInit {
       },
     });
   }
+
+  setActiveTab(tab: 'listings' | 'history'): void {
+    this.activeTab = tab;
+  }
+
 
 
   formatExternalLink(link: string | undefined): string {

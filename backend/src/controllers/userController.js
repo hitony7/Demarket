@@ -25,36 +25,40 @@ exports.getUserById = async (req, res) => {
   }
 };
 
-  // @desc    Get specific user by ID (Public version)
-  // @route   GET /api/users/:id/public
-  // @access  Public
-  exports.getUserByIdPublic = async (req, res) => {
-    try {
-      console.log("Received request to get public user data for ID:", req.params.id);
-  
-      // Attempt to find the user by ID and select only the fields we need
-      const user = await User.findById(req.params.id).select('username wallet');
-      console.log("Database query complete");
-  
-      // Check if the user was found
-      if (!user) {
-        console.warn(`User with ID ${req.params.id} not found`);
-        return res.status(404).json({ message: 'User not found' });
-      }
-  
-      // Prepare response data
-      const responseData = {
-        username: user.username,
-        wallet: user.wallet?.[0] || null, // Return the first wallet address or null if wallet is empty or undefined
-      };
-  
-      console.log("Sending response:", responseData);
-      res.json(responseData);
-    } catch (error) {
-      console.error("Error fetching public user data:", error); // Log the error for debugging
-      res.status(500).json({ message: 'Server error' });
+// @desc    Get specific user by ID (Public version)
+// @route   GET /api/users/:id/public
+// @access  Public
+exports.getUserByIdPublic = async (req, res) => {
+  try {
+    console.log("Received request to get public user data for ID:", req.params.id);
+
+    // Attempt to find the user by ID and select only the public fields
+    const user = await User.findById(req.params.id).select('username wallet rep createdAt bio links');
+    console.log("Database query complete");
+
+    // Check if the user was found
+    if (!user) {
+      console.warn(`User with ID ${req.params.id} not found`);
+      return res.status(404).json({ message: 'User not found' });
     }
-  };
+
+    // Prepare response data with all required fields
+    const responseData = {
+      username: user.username,
+      wallet: user.wallet?.[0] || null, // Return the first wallet address or null if wallet is empty or undefined
+      rep: user.rep || 0, // Return rep or default to 0 if undefined
+      dateJoined: user.createdAt, // Use createdAt as dateJoined
+      bio: user.bio || 'No bio available', // Default to message if bio is empty
+      links: user.links || null, // Return links or null if undefined
+    };
+
+    console.log("Sending response:", responseData);
+    res.json(responseData);
+  } catch (error) {
+    console.error("Error fetching public user data:", error); // Log the error for debugging
+    res.status(500).json({ message: 'Server error' });
+  }
+};
 
 
 // @desc    Get specific user by wallet address (Public version)

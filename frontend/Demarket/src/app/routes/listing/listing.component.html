@@ -1,27 +1,69 @@
 <app-header></app-header>
+
 <div class="bg-black text-white min-h-screen p-6">
-  <div class="max-w-3xl mx-auto bg-gray-800 p-6 rounded-lg shadow-lg">
-    <!-- Item Image -->
-    <div
-      class="h-64 bg-gray-700 rounded mb-6"
-      [ngStyle]="{
-        'background-image': item.image ? 'url(' + item.image + ')' : '',
-        'background-size': 'cover',
-        'background-position': 'center'
-      }"
-      [style.backgroundColor]="item.image ? '' : 'white'"
-    ></div>
+  <!-- Container -->
+  <div class="max-w-3xl mx-auto">
+    <!-- Listing Details -->
+    <div class="bg-gray-900 p-8 rounded-lg shadow-lg mb-8">
+      <!-- Item Image -->
+      <div
+        class="h-64 rounded-lg mb-6 bg-gray-700"
+        [ngStyle]="{
+          'background-image': item.image ? 'url(' + item.image + ')' : '',
+          'background-size': 'cover',
+          'background-position': 'center'
+        }"
+        [style.backgroundColor]="item.image ? '' : 'gray'"
+      ></div>
 
-    <!-- Item Title -->
-    <h1 class="text-3xl font-bold mb-2">{{ item.title }}</h1>
+      <!-- Item Title -->
+      <h1 class="text-4xl font-bold mb-4 text-center">
+        {{ item.title || "Item Title" }}
+      </h1>
 
-    <!-- Item Description -->
-    <p class="text-gray-300 mb-4">{{ item.description }}</p>
+      <!-- Item Description -->
+      <p class="text-gray-300 text-lg leading-relaxed mb-6">
+        {{ item.description || "No description available." }}
+      </p>
 
-    <!-- Item Price -->
-    <p class="text-xl font-semibold">
-      Price: {{ item.price }} {{ item.currency }}
-    </p>
+      <!-- Item Price -->
+      <p class="text-2xl font-semibold text-yellow-400 text-center">
+        Price: {{ item.price || "N/A" }} {{ item.currency || "USD" }}
+      </p>
+    </div>
+
+    <!-- Owner Details -->
+    <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+      <h2 class="text-2xl font-bold mb-4 text-center text-white">
+        Owner Information
+      </h2>
+      <div class="text-lg text-gray-300">
+        <p class="mb-2">
+          <strong class="text-white">Name:</strong>
+          <a
+            *ngIf="seller?.username"
+            (click)="redirectToProfile()"
+            class="text-blue-400 hover:underline cursor-pointer"
+            >{{ seller?.username }}</a
+          >
+        </p>
+        <p class="mb-2">
+          <strong class="text-white">Wallet:</strong>
+          <a
+            *ngIf="seller?.wallet"
+            [href]="getEtherscanLink(seller?.wallet)"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-blue-400 hover:underline"
+            >{{ seller?.wallet }}</a
+          >
+        </p>
+        <p class="mb-2">
+          <strong class="text-white">Rep Score:</strong> {{ seller?.rep || 0 }}
+        </p>
+      </div>
+    </div>
   </div>
 </div>
+
 <app-footer></app-footer>

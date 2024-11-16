@@ -86,6 +86,7 @@ export class LoginBoxComponent {
 
       alert('Authentication successful!');
     } catch (error: any) {
+      this.walletService.clearWalletAddress();
       console.error('Authentication failed:', error);
       alert('Authentication failed.');
     }

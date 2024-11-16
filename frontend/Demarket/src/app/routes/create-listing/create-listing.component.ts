@@ -37,38 +37,34 @@ export class CreateListingComponent implements OnInit {
 
   ngOnInit(): void {}
 
+
+  resetForm(): void {
+    this.listingForm.reset();
+  }
+  
   onSubmit() {
     console.log('Submitting Listing');
-
+  
     if (this.listingForm.invalid) {
-      this.listingForm.markAllAsTouched();
+      this.listingForm.markAllAsTouched(); // Show errors for all invalid fields
       return;
     }
-
+  
     const formData = new FormData();
-    let isEmpty = true;
-
+  
     Object.keys(this.listingForm.controls).forEach((key) => {
       const value = this.listingForm.get(key)?.value;
       if (value !== null && value !== undefined) {
         formData.append(key, value);
-        isEmpty = false;
-      } else {
-        console.log(`Field ${key} is missing or empty`);
       }
     });
-
-    if (isEmpty) {
-      console.error('FormData is empty, aborting submission');
-      return;
-    }
-
+  
     this.listingService.createListing(formData).subscribe({
       next: (response) => {
         console.log('Listing created successfully', response);
-
+  
         const listingId = response.id;
-
+  
         this.router.navigate([`/listing/${listingId}`]).then(() => {
           alert('Listing created successfully!');
         });
@@ -77,11 +73,9 @@ export class CreateListingComponent implements OnInit {
         console.error('Error creating listing', error);
         alert('Failed to create the listing. Please try again.');
       },
-      complete: () => {
-        console.log('Request complete');
-      },
     });
   }
+  
 
   onFileChange(event: any) {
     const file = event.target.files[0];

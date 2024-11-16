@@ -1,69 +1,84 @@
 <app-header></app-header>
-
 <div class="bg-black text-white min-h-screen p-6">
-  <!-- Container -->
-  <div class="max-w-3xl mx-auto">
-    <!-- Listing Details -->
-    <div class="bg-gray-900 p-8 rounded-lg shadow-lg mb-8">
+  <div class="max-w-5xl mx-auto flex flex-col lg:flex-row gap-6">
+    <!-- Left Section: Item Details -->
+    <div class="flex-1 bg-gray-800 p-6 rounded-lg shadow-lg">
       <!-- Item Image -->
       <div
-        class="h-64 rounded-lg mb-6 bg-gray-700"
+        class="h-64 bg-gray-700 rounded mb-6"
         [ngStyle]="{
           'background-image': item.image ? 'url(' + item.image + ')' : '',
           'background-size': 'cover',
           'background-position': 'center'
         }"
-        [style.backgroundColor]="item.image ? '' : 'gray'"
       ></div>
 
       <!-- Item Title -->
-      <h1 class="text-4xl font-bold mb-4 text-center">
-        {{ item.title || "Item Title" }}
-      </h1>
+      <h1 class="text-3xl font-bold mb-2">{{ item.title }}</h1>
 
       <!-- Item Description -->
-      <p class="text-gray-300 text-lg leading-relaxed mb-6">
-        {{ item.description || "No description available." }}
-      </p>
+      <p class="text-gray-300 mb-4">{{ item.description }}</p>
 
-      <!-- Item Price -->
-      <p class="text-2xl font-semibold text-yellow-400 text-center">
-        Price: {{ item.price || "N/A" }} {{ item.currency || "USD" }}
+      <!-- Created Listing Date -->
+      <p class="text-sm text-gray-400 italic">
+        Created on: {{ item.createdAt | date : "longDate" }} at
+        {{ item.createdAt | date : "shortTime" }}
       </p>
     </div>
 
-    <!-- Owner Details -->
-    <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
-      <h2 class="text-2xl font-bold mb-4 text-center text-white">
-        Owner Information
-      </h2>
-      <div class="text-lg text-gray-300">
-        <p class="mb-2">
-          <strong class="text-white">Name:</strong>
-          <a
-            *ngIf="seller?.username"
-            (click)="redirectToProfile()"
-            class="text-blue-400 hover:underline cursor-pointer"
-            >{{ seller?.username }}</a
-          >
-        </p>
-        <p class="mb-2">
-          <strong class="text-white">Wallet:</strong>
-          <a
-            *ngIf="seller?.wallet"
-            [href]="getEtherscanLink(seller?.wallet)"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-blue-400 hover:underline"
-            >{{ seller?.wallet }}</a
-          >
-        </p>
-        <p class="mb-2">
-          <strong class="text-white">Rep Score:</strong> {{ seller?.rep || 0 }}
-        </p>
+    <!-- Right Section: Price and Actions -->
+    <div class="w-full lg:w-1/3 bg-gray-900 p-6 rounded-lg shadow-lg">
+      <!-- Item Price -->
+      <p class="text-2xl font-semibold text-yellow-400 mb-4">
+        Price: {{ item.price }} {{ item.currency }}
+      </p>
+
+      <!-- Countdown Timer -->
+      <div *ngIf="item.saleType === 'bid'" class="mb-4">
+        <h3 class="text-lg font-semibold">Time Left:</h3>
+        <p class="text-yellow-400 font-bold">{{ countdown || "Loading..." }}</p>
+        <p class="text-sm text-gray-400">Sale ends {{ saleEndDate }}</p>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex flex-col gap-4 mt-4">
+        <button
+          class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg shadow-md transition-all duration-200"
+        >
+          BUY NOW
+        </button>
+        <button
+          class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg shadow-md transition-all duration-200"
+        >
+          MAKE OFFER
+        </button>
       </div>
     </div>
   </div>
-</div>
 
+  <!-- Owner Details -->
+  <div class="bg-gray-800 p-6 rounded-lg shadow-lg mt-6 max-w-5xl mx-auto">
+    <h2 class="text-2xl font-bold mb-4 text-center">Owner Information</h2>
+    <p>
+      <strong>Name:</strong>
+      <button
+        (click)="redirectToProfile()"
+        class="text-blue-400 hover:underline focus:outline-none"
+      >
+        {{ seller?.username || "Unknown" }}
+      </button>
+    </p>
+    <p>
+      <strong>Wallet:</strong>
+      <a
+        [href]="getEtherscanLink(seller?.wallet)"
+        target="_blank"
+        class="text-blue-400 hover:underline"
+      >
+        {{ seller?.wallet || "N/A" }}
+      </a>
+    </p>
+    <p><strong>Rep Score:</strong> {{ seller?.rep || 0 }}</p>
+  </div>
+</div>
 <app-footer></app-footer>

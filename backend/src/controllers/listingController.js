@@ -94,7 +94,7 @@ exports.getListings = async (req, res) => {
 
   if (!category && !page && !pageSize) {
     // No query parameters; return all listings
-    return listingController.getAllListings(req, res);
+    return this.getAllListings(req, res);
   }
 
   // Apply filtering and pagination

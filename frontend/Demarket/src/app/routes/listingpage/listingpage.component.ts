@@ -1,46 +1,95 @@
-import { Component , OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common'; // Import CommonModule for *ngFor and ngStyle
 import { HeaderComponent } from '../../shared/ui/header/header.component';
 import { FooterComponent } from '../../shared/ui/footer/footer.component';
 import { RouterModule, Router } from '@angular/router';
 import { ListingService } from '../../shared/services/listings.service';
+import { AuthService } from '../../shared/services/auth.service'; // Inject AuthService
 import { ListingCardComponent } from '../../shared/ui/listing-card/listing-card.component';
 
 @Component({
   selector: 'app-listingpage',
   standalone: true,
-  imports: [HeaderComponent, FooterComponent, RouterModule, CommonModule, ListingCardComponent],
+  imports: [
+    HeaderComponent,
+    FooterComponent,
+    RouterModule,
+    CommonModule,
+    ListingCardComponent,
+  ],
   templateUrl: './listingpage.component.html',
-  styleUrl: './listingpage.component.scss'
+  styleUrls: ['./listingpage.component.scss'], // Fixed typo from `styleUrl` to `styleUrls`
 })
-export class ListingpageComponent implements OnInit  {
-goToItemDetail(arg0: any) {
-throw new Error('Method not implemented.');
-}
-  listings: any[] = [];
-
-  constructor(private listingService: ListingService, private router: Router) {}
-
-  ngOnInit() {
-    this.getListings();
-  }
-
-  getListings() {
-    this.listingService.getListings().subscribe({
-      next: (data) => {
-        this.listings = data;
-        //console.log('Listings fetched successfully:', this.listings); // Verify if listings have data
-      },
-      error: (error) => {
-        console.error('Error fetching listings:', error);
+export class ListingpageComponent implements OnInit {
+    categories: string[] = [
+      'Electronics',
+      'Fashion',
+      'Home & Garden',
+      'Sports',
+      'Health & Beauty',
+      'Toys',
+      'Automotive',
+      'Books',
+      'Music',
+      'Art',
+      'Other',
+    ];
+    isAuthenticated: boolean = false;
+    showTooltip: boolean = false; // Controls tooltip visibility
+    selectedCategory: string | null = null;
+    listings: any[] = [];
+    pagination = {
+      currentPage: 1,
+      totalPages: 1,
+      pageSize: 20,
+      totalItems: 0,
+    };
+  
+    constructor(
+      private listingService: ListingService,
+      private authService: AuthService,
+      private router: Router
+    ) {}
+    ngOnInit() {
+      this.getListings();
+      
+         // Subscribe to authentication status
+      this.authService.token$.subscribe((token) => {
+        this.isAuthenticated = !!token; // Update authentication state
+      });
+    }
+  
+    getListings() {
+      const { currentPage, pageSize } = this.pagination;
+  
+      this.listingService
+        .getListings(this.selectedCategory, currentPage, pageSize)
+        .subscribe({
+          next: (response) => {
+            this.listings = response.listings;
+            this.pagination.totalPages = response.pagination.totalPages;
+            this.pagination.totalItems = response.pagination.totalItems;
+          },
+          error: (error) => {
+            console.error('Error fetching listings:', error);
+          },
+        });
+    }
+  
+    filterByCategory(category: string | null) {
+      this.selectedCategory = category;
+      this.pagination.currentPage = 1; // Reset to the first page
+      this.getListings();
+    }
+  
+    goToPage(page: number) {
+      if (page >= 1 && page <= this.pagination.totalPages) {
+        this.pagination.currentPage = page;
+        this.getListings();
       }
-    });
+    }
+  
+    goToListing(id: string) {
+      this.router.navigate(['/listing', id]);
+    }
   }
-  
-
-  goToListing = (id: string) => {
-    this.router.navigate(['/listing', id]);
-  };
-
-  
-}

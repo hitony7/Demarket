@@ -1,28 +1,53 @@
 <app-header></app-header>
 
-<!-- Category Links -->
-<div class="flex flex-wrap justify-center bg-black p-4 text-white">
+<!-- New Listing Button -->
+<div class="flex justify-center bg-black p-4 text-white relative">
+  <!-- Button -->
   <button
-    class="m-2 py-2 px-6 bg-green-600 hover:bg-green-700 rounded text-white font-semibold"
-    routerLink="/createlistings"
+    class="flex items-center gap-2 py-2 px-6 text-white font-semibold rounded shadow-md relative"
+    [class.bg-green-600]="isAuthenticated"
+    [class.bg-gray-600]="!isAuthenticated"
+    [class.cursor-not-allowed]="!isAuthenticated"
+    [routerLink]="isAuthenticated ? '/createlistings' : null"
+    [disabled]="!isAuthenticated"
+    (mouseenter)="showTooltip = !isAuthenticated"
+    (mouseleave)="showTooltip = false"
+    aria-describedby="tooltip"
   >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke-width="2"
+      stroke="currentColor"
+      class="w-5 h-5"
+    >
+      <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+    </svg>
     Create New Listing
   </button>
-  <a href="#" class="m-2 px-4 py-2 hover:bg-gray-700 rounded">Electronics</a>
-  <a href="#" class="m-2 px-4 py-2 hover:bg-gray-700 rounded">Fashion</a>
-  <a href="#" class="m-2 px-4 py-2 hover:bg-gray-700 rounded">Home & Garden</a>
-  <a href="#" class="m-2 px-4 py-2 hover:bg-gray-700 rounded">Sports</a>
-  <a href="#" class="m-2 px-4 py-2 hover:bg-gray-700 rounded"
-    >Health & Beauty</a
-  >
-  <a href="#" class="m-2 px-4 py-2 hover:bg-gray-700 rounded">Toys</a>
-  <a href="#" class="m-2 px-4 py-2 hover:bg-gray-700 rounded">Automotive</a>
-  <a href="#" class="m-2 px-4 py-2 hover:bg-gray-700 rounded">Books</a>
-  <a href="#" class="m-2 px-4 py-2 hover:bg-gray-700 rounded">Music</a>
-  <a href="#" class="m-2 px-4 py-2 hover:bg-gray-700 rounded">Art</a>
-  <a href="#" class="m-2 px-4 py-2 hover:bg-gray-700 rounded">Other</a>
-</div>
 
+  <!-- Tooltip -->
+  <div
+    *ngIf="showTooltip"
+    id="tooltip"
+    role="tooltip"
+    class="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 px-4 py-2 text-sm text-white bg-gray-800 rounded shadow-md"
+  >
+    Please log in to create a new listing.
+  </div>
+</div>
+<!-- Category Bar -->
+<div class="flex flex-wrap justify-center bg-black p-4 text-white">
+  <button
+    *ngFor="let category of categories"
+    class="m-2 px-4 py-2 rounded"
+    [class.bg-gray-700]="selectedCategory === category"
+    (click)="filterByCategory(category)"
+  >
+    {{ category }}
+  </button>
+</div>
 <!-- Listings Grid -->
 <div
   *ngIf="listings && listings.length > 0; else noListings"
@@ -31,9 +56,38 @@
   <app-listing-card
     *ngFor="let listing of listings"
     [listing]="listing"
-    [goToListing]="goToListing"
+    (click)="goToListing(listing.id)"
   ></app-listing-card>
 </div>
+
+<!-- Pagination -->
+<div
+  class="flex justify-center items-center gap-4 mt-6"
+  *ngIf="pagination.totalPages > 1"
+  role="navigation"
+  aria-label="Pagination Navigation"
+>
+  <button
+    class="py-2 px-4 bg-gray-600 hover:bg-gray-700 text-white rounded"
+    (click)="goToPage(pagination.currentPage - 1)"
+    [disabled]="pagination.currentPage === 1"
+    [attr.aria-disabled]="pagination.currentPage === pagination.totalPages"
+  >
+    Previous
+  </button>
+  <span class="text-gray-400" aria-live="polite"
+    >Page {{ pagination.currentPage }} of {{ pagination.totalPages }}</span
+  >
+  <button
+    class="py-2 px-4 bg-gray-600 hover:bg-gray-700 text-white rounded"
+    (click)="goToPage(pagination.currentPage + 1)"
+    [disabled]="pagination.currentPage === pagination.totalPages"
+    [attr.aria-disabled]="pagination.currentPage === pagination.totalPages"
+  >
+    Next
+  </button>
+</div>
+
 <!-- No Listings Message -->
 <ng-template #noListings>
   <p class="text-center text-gray-400">No listings available.</p>

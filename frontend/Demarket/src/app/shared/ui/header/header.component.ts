@@ -4,6 +4,8 @@ import { Route, RouterModule } from '@angular/router';
 import { LoginBoxComponent } from '../../ui/loginbox/loginbox.component';
 import { WalletService } from '../../services/wallet.service';
 import { UserService } from '../../services/user.service';
+import { AuthService } from '../../services/auth.service';
+
 import { Router } from '@angular/router';
 
 @Component({
@@ -19,8 +21,13 @@ export class HeaderComponent implements OnInit {
     isModalOpen = false; // Controls login modal visibility
     isDropdownOpen = false; // Controls dropdown visibility
     walletAddress: string | null = null; // Stores the connected wallet address
+    isAuthenticate = false;
   
-    constructor(private walletService: WalletService, private userService: UserService, private router: Router) {}
+    constructor(
+       private walletService: WalletService,
+       private userService: UserService,
+       private authService: AuthService, 
+       private router: Router) {}
   
   
   goToProfile(): void {
@@ -66,7 +73,8 @@ export class HeaderComponent implements OnInit {
 
   // Logs out the user
   logout() {
-    this.walletService.clearWalletAddress(); // Use service to clear wallet address
+  // Use service to clear wallet address and JWT
+    this.authService.logout();
     this.isDropdownOpen = false;
   }
 }

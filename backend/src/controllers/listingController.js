@@ -73,6 +73,8 @@ exports.createListing = async (req, res) => {
   }
 };
 
+// @route   GET /api/listings
+// @access  Public
 // Get all listings
 exports.getAllListings = async (req, res) => {
   try {
@@ -83,6 +85,47 @@ exports.getAllListings = async (req, res) => {
   }
 };
 
+
+// @desc    Get listings with optional category filter and pagination
+// @route   GET /api/listings
+// @access  Public
+exports.getListings = async (req, res) => {
+  const { category, page, pageSize } = req.query;
+
+  if (!category && !page && !pageSize) {
+    // No query parameters; return all listings
+    return listingController.getAllListings(req, res);
+  }
+
+  // Apply filtering and pagination
+  try {
+    const { category, page = 1, pageSize = 20 } = req.query;
+
+    const limit = parseInt(pageSize);
+    const offset = (parseInt(page) - 1) * limit;
+
+    const query = {};
+    if (category) query.category = category;
+
+    const [listings, total] = await Promise.all([
+      Listing.find(query).skip(offset).limit(limit),
+      Listing.countDocuments(query),
+    ]);
+
+    res.json({
+      listings,
+      pagination: {
+        totalItems: total,
+        currentPage: parseInt(page),
+        totalPages: Math.ceil(total / limit),
+        pageSize: limit,
+      },
+    });
+  } catch (error) {
+    console.error('Error fetching listings:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
 // Get a specific listing by ID
 exports.getListingById = async (req, res) => {
   try {

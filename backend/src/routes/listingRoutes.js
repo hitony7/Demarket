@@ -9,7 +9,11 @@ const { protect } = require('../middleware/authMiddleware');
 router.post('/', protect, listingController.createListing);
 
 // GET /api/listings - Get all listings
-router.get('/', listingController.getAllListings);
+router.get('/all', listingController.getAllListings);
+
+// GET /api/listings -  Get listings with optional category filter and pagination
+router.get('/', listingController.getListings);
+
 
 // GET /api/listings/:id - Get a specific listing
 router.get('/:id', listingController.getListingById);

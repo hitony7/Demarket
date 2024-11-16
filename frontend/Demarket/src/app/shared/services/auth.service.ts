@@ -6,6 +6,8 @@ import { BehaviorSubject, lastValueFrom } from 'rxjs';
 import { WalletService } from './wallet.service';
 import { isPlatformBrowser } from '@angular/common';
 import { environment } from '../../../../src/environment/environment'; // Import environment for API base URL
+import { jwtDecode } from "jwt-decode";
+
 
 @Injectable({
   providedIn: 'root',
@@ -72,6 +74,25 @@ export class AuthService {
     );
   }
 
+
+    /**
+   * Checks if the user is authenticated by verifying the existence and validity of a JWT token.
+   * @returns true if the user is authenticated, otherwise false.
+   */
+    isAuthenticated(): boolean {
+      const token = localStorage.getItem('token');
+      if (token) {
+        const decoded: any = jwtDecode(token);
+        const currentTime = Math.floor(Date.now() / 1000);
+        return decoded.exp > currentTime;
+      }
+      return false;
+    }
+    
+      
+      
+
+
   /**
    * Logs the user out by clearing the token from both local storage and the BehaviorSubject.
    * Additionally, clears the wallet address stored in WalletService.
@@ -84,3 +105,4 @@ export class AuthService {
     this.walletService.clearWalletAddress(); // Clear the wallet address from WalletService
   }
 }
+

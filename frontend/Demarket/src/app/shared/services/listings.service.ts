@@ -22,8 +22,11 @@ export class ListingService {
   }
 
     // Get all listings
-    getListings(): Observable<any> {
-      return this.http.get(this.apiUrl);
+    getListings(category: string | null, page: number, pageSize: number): Observable<any> {
+      const params: any = { page, pageSize };
+      if (category) params.category = category;
+  
+      return this.http.get<any>(this.apiUrl, { params });
     }
     //Single Listing
     getListingById(id: string): Observable<any> {

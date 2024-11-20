@@ -7,22 +7,22 @@
       <div
         class="h-64 bg-gray-700 rounded mb-6"
         [ngStyle]="{
-          'background-image': item.image ? 'url(' + item.image + ')' : '',
+          'background-image': item?.image ? 'url(' + item.image + ')' : '',
           'background-size': 'cover',
           'background-position': 'center'
         }"
       ></div>
 
       <!-- Item Title -->
-      <h1 class="text-3xl font-bold mb-2">{{ item.title }}</h1>
+      <h1 class="text-3xl font-bold mb-2">{{ item?.title }}</h1>
 
       <!-- Item Description -->
-      <p class="text-gray-300 mb-4">{{ item.description }}</p>
+      <p class="text-gray-300 mb-4">{{ item?.description }}</p>
 
       <!-- Created Listing Date -->
       <p class="text-sm text-gray-400 italic">
-        Created on: {{ item.createdAt | date : "longDate" }} at
-        {{ item.createdAt | date : "shortTime" }}
+        Created on: {{ item?.createdAt | date : "longDate" }} at
+        {{ item?.createdAt | date : "shortTime" }}
       </p>
     </div>
 
@@ -30,13 +30,15 @@
     <div class="w-full lg:w-1/3 bg-gray-900 p-6 rounded-lg shadow-lg">
       <!-- Item Price -->
       <p class="text-2xl font-semibold text-yellow-400 mb-4">
-        Price: {{ item.price }} {{ item.currency }}
+        Price: {{ item?.price || "N/A" }} {{ item?.currency || "" }}
       </p>
 
       <!-- Countdown Timer -->
-      <div *ngIf="item.saleType === 'bid'" class="mb-4">
+      <div *ngIf="item?.saleType === 'bid'" class="mb-4">
         <h3 class="text-lg font-semibold">Time Left:</h3>
-        <p class="text-yellow-400 font-bold">{{ countdown || "Loading..." }}</p>
+        <p class="text-yellow-400 font-bold">
+          {{ countdown || "Bidding Ended" }}
+        </p>
         <p class="text-sm text-gray-400">Sale ends {{ saleEndDate }}</p>
       </div>
 
@@ -45,12 +47,13 @@
         <button
           class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg shadow-md transition-all duration-200"
         >
-          BUY NOW
+          Buy now
         </button>
         <button
           class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg shadow-md transition-all duration-200"
+          aria-label="Buy Now"
         >
-          MAKE OFFER
+          Make offer
         </button>
       </div>
     </div>
@@ -71,12 +74,14 @@
     <p>
       <strong>Wallet:</strong>
       <a
+        *ngIf="seller?.wallet"
         [href]="getEtherscanLink(seller?.wallet)"
         target="_blank"
         class="text-blue-400 hover:underline"
       >
-        {{ seller?.wallet || "N/A" }}
+        {{ seller?.wallet }}
       </a>
+      <span *ngIf="!seller?.wallet">N/A</span>
     </p>
     <p><strong>Rep Score:</strong> {{ seller?.rep || 0 }}</p>
   </div>

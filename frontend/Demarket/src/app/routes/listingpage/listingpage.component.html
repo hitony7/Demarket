@@ -56,7 +56,7 @@
   <app-listing-card
     *ngFor="let listing of listings"
     [listing]="listing"
-    (click)="goToListing(listing.id)"
+    [goToListing]="goToListing"
   ></app-listing-card>
 </div>
 

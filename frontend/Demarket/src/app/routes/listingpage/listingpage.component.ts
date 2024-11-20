@@ -89,7 +89,7 @@ export class ListingpageComponent implements OnInit {
       }
     }
   
-    goToListing(id: string) {
+    goToListing = (id: string): void => {
       this.router.navigate(['/listing', id]);
-    }
+    };
   }

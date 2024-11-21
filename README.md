@@ -71,10 +71,9 @@ The backend is a Node.js application with Express, located in the `backend` dire
     };
    ```
 
-```
-
 3. Smart Contracts:
- - Configure `truffle-config.js` in the `smart-contracts` directory with your network settings.
+
+- Configure `truffle-config.js` in the `smart-contracts` directory with your network settings.
 
 ## Running the Application
 
@@ -96,11 +95,12 @@ The server will start on `http://localhost:3000`
 cd frontend/Demarket
 ng serve
 
-````
+```
 
 The Angular app will start on `http://localhost:4200`
 
 3. Smart Contracts:
+
 - Start Ganache for a local blockchain
 - Compile contracts:
   ```
@@ -142,4 +142,7 @@ For more details, see the [Smart Contracts README](./smart-contracts/README.md).
 - [MongoDB](https://www.mongodb.com/) - The database used
 - [Mongoose](https://mongoosejs.com/) - MongoDB object modeling for Node.js
 - [Truffle](https://www.trufflesuite.com/truffle) - Development framework for Ethereum
-````
+
+```
+
+```

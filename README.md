@@ -54,47 +54,63 @@ The backend is a Node.js application with Express, located in the `backend` dire
    - Add the following environment variables:
      ```
      PORT=3000
-     MONGODB_URI=mongodb://localhost:27017/your_database_name
+     MONGODB_URI=mongodb://localhost:27017/[your_database_name]
+     JWT_SECRET=[YOUR_JWT_SECRET]
+     PRIVATE_KEY_DEV= [PRIVATE_KEY FOR DEVELOPMENT TESTING]
      ```
 
 2. Frontend:
 
    - The frontend configuration is managed through Angular's environment files.
+   - Update the `environment.ts` and `environment.prod.ts` files in the `frontend/Demarket/src/environments` directory with your settings.
+
+   ```
+   export const environment = {
+    production: false,                   // Set to true for production
+    apiBaseUrl: 'http://localhost:3000', // Replace with your backend API URL
+    };
+   ```
+
+```
 
 3. Smart Contracts:
-   - Configure `truffle-config.js` in the `smart-contracts` directory with your network settings.
+ - Configure `truffle-config.js` in the `smart-contracts` directory with your network settings.
 
 ## Running the Application
 
 1. Backend:
 
-   ```
-   cd backend
-   npm run dev
-   ```
+```
 
-   The server will start on `http://localhost:3000`
+cd backend
+npm run dev
+
+```
+
+The server will start on `http://localhost:3000`
 
 2. Frontend:
 
-   ```
-   cd frontend/Demarket
-   ng serve
-   ```
+```
 
-   The Angular app will start on `http://localhost:4200`
+cd frontend/Demarket
+ng serve
+
+````
+
+The Angular app will start on `http://localhost:4200`
 
 3. Smart Contracts:
-   - Start Ganache for a local blockchain
-   - Compile contracts:
-     ```
-     cd smart-contracts
-     truffle compile
-     ```
-   - Deploy contracts:
-     ```
-     truffle migrate
-     ```
+- Start Ganache for a local blockchain
+- Compile contracts:
+  ```
+  cd smart-contracts
+  truffle compile
+  ```
+- Deploy contracts:
+  ```
+  truffle migrate
+  ```
 
 ## API Endpoints
 
@@ -126,3 +142,4 @@ For more details, see the [Smart Contracts README](./smart-contracts/README.md).
 - [MongoDB](https://www.mongodb.com/) - The database used
 - [Mongoose](https://mongoosejs.com/) - MongoDB object modeling for Node.js
 - [Truffle](https://www.trufflesuite.com/truffle) - Development framework for Ethereum
+````

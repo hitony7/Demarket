@@ -5,11 +5,13 @@ import { CreateListingComponent } from '../app/routes/create-listing/create-list
 import { ListingComponent } from './routes/listing/listing.component';
 import { ProfilepageComponent } from './routes/profilepage/profilepage.component';
 import { AuthGuard } from '../app/shared/guard/authguard.guard'; // Import the AuthGuard
+import { DashboardComponent } from './routes/dashboard/dashboard.component';
 
 export const routes: Routes = [
   { path: '', component: MainpageComponent }, // Default route
   { path: 'listings', component: ListingpageComponent }, //Main Listing Page shows All
   { path: 'listing/:id', component: ListingComponent }, //Listing item page by id
   { path: 'createlistings', component: CreateListingComponent, canActivate: [AuthGuard] }, // Apply AuthGuard here
-  { path: 'profile/:id', component: ProfilepageComponent } //Public profile
+  { path: 'profile/:id', component: ProfilepageComponent }, //Public profile
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]} // Private profile
 ];

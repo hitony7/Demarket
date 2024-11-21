@@ -1,0 +1,22 @@
+<div
+  *ngIf="listings && listings.length > 0; else noListings"
+  class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+>
+  <div
+    *ngFor="let listing of listings"
+    class="p-4 bg-gray-800 text-white rounded-lg shadow cursor-pointer hover:bg-gray-700"
+    (click)="goToListing(listing.id)"
+  >
+    <h2 class="text-xl font-bold mb-2">{{ listing.title }}</h2>
+    <p class="text-gray-400">{{ listing.description }}</p>
+    <p class="text-yellow-400 font-semibold">
+      {{ listing.price }} {{ listing.currency }}
+    </p>
+  </div>
+</div>
+
+<ng-template #noListings>
+  <div class="flex items-center justify-center min-h-[40vh] bg-black">
+    <p class="text-center text-white text-xl">No listings available.</p>
+  </div>
+</ng-template>

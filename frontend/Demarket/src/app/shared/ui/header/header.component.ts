@@ -36,7 +36,7 @@ export class HeaderComponent implements OnInit {
       this.userService.getUserByWalletAddressPublic(walletAddress).subscribe({
         next: (user) => {
           const userId = user._id; // Assuming `_id` is the user's ID
-          this.router.navigate([`/profile/${userId}`]);
+          this.router.navigate([`/dashboard`]); //private profile 
         },
         error: (error) => {
           console.error('Error fetching user data:', error);

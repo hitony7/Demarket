@@ -1,0 +1,78 @@
+<app-header></app-header>
+
+<div
+  class="profile bg-black text-white min-h-screen flex flex-col items-center p-8"
+>
+  <!-- Profile Icon Placeholder -->
+  <div class="flex flex-col items-center mb-6">
+    <div
+      class="w-24 h-24 bg-gray-700 rounded-full mb-4 flex items-center justify-center text-xl font-bold"
+    >
+      Icon
+    </div>
+    <h1 class="text-4xl font-bold mb-2">{{ userName || "User Name" }}</h1>
+  </div>
+
+  <!-- Profile Details -->
+  <div class="w-full max-w-2xl text-center mb-8">
+    <p class="text-lg">
+      <strong>Wallet Address:</strong> {{ wallet || "N/A" }}
+    </p>
+    <p class="text-lg"><strong>Rep Score:</strong> {{ rep }}</p>
+    <p class="text-lg">
+      <strong>Date Joined:</strong> {{ dateJoined | date : "longDate" }}
+    </p>
+    <p class="text-lg"><strong>Bio:</strong> {{ bio || "No bio available" }}</p>
+    <p class="text-lg">
+      <strong>Links:</strong>
+      <a
+        [href]="formatExternalLink(links)"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-blue-400 hover:underline"
+      >
+        {{ links }}
+      </a>
+    </p>
+  </div>
+
+  <!-- Tabs Navigation -->
+  <div
+    class="tabs w-full max-w-4xl flex justify-center gap-4 border-b border-gray-600 mb-6"
+  >
+    <button
+      class="py-2 px-6 text-lg font-semibold"
+      [ngClass]="{
+        'border-b-2 border-blue-400 text-blue-400': activeTab === 'listings',
+        'text-gray-400': activeTab !== 'listings'
+      }"
+      (click)="setActiveTab('listings')"
+    >
+      Listings
+    </button>
+    <button
+      class="py-2 px-6 text-lg font-semibold"
+      [ngClass]="{
+        'border-b-2 border-blue-400 text-blue-400': activeTab === 'history',
+        'text-gray-400': activeTab !== 'history'
+      }"
+      (click)="setActiveTab('history')"
+    >
+      History
+    </button>
+  </div>
+
+  <!-- Tab Content -->
+  <div class="w-full max-w-4xl">
+    <ng-container *ngIf="activeTab === 'listings'">
+      <app-user-listings-private [userId]="userId!"></app-user-listings-private>
+    </ng-container>
+    <ng-container *ngIf="activeTab === 'history'">
+      <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+        <h2 class="text-2xl font-bold mb-4 text-white">Transaction History</h2>
+        <p class="text-gray-400">No transaction history available yet.</p>
+      </div>
+    </ng-container>
+  </div>
+</div>
+<app-footer></app-footer>

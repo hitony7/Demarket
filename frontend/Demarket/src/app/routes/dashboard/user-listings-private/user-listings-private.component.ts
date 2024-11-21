@@ -18,6 +18,7 @@ export class UserListingsPrivateComponent implements OnInit {
   constructor(private listingService: ListingService, private router: Router) {}
 
   ngOnInit(): void {
+    console.log('User ID from parent:', this.userId);
     this.fetchUserListings();
   }
 

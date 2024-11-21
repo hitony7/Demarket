@@ -30,10 +30,10 @@ export class DashboardComponent implements OnInit{
 
 
   ngOnInit(): void {
-    const userId = this.authService.getUserId(); // Fetch from JWT or session
+    this.userId = this.authService.getUserId(); // Fetch from JWT or session
   
-    if (userId) {
-      this.userService.getUserById(userId).subscribe({
+    if (this.userId) {
+      this.userService.getUserById(this.userId).subscribe({
         next: (data) => {
           this.user = data;
           this.userName = data.username;

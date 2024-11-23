@@ -80,7 +80,7 @@ export class AuthService {
    * @returns true if the user is authenticated, otherwise false.
    */
     isAuthenticated(): boolean {
-      const token = localStorage.getItem('token');
+      const token = this.getToken(); 
       if (token) {
         const decoded: any = jwtDecode(token);
         const currentTime = Math.floor(Date.now() / 1000);

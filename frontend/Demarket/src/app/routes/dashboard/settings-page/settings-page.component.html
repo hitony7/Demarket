@@ -1,0 +1,77 @@
+<app-header></app-header>
+<div class="settings-page flex min-h-screen bg-black text-white">
+  <!-- Sidebar -->
+  <div class="sidebar w-1/4 bg-black p-6 border-r border-gray-700">
+    <!-- Sidebar Title -->
+    <h2 class="text-xl font-bold text-white mb-6">Settings</h2>
+
+    <!-- Sidebar Menu -->
+    <ul class="space-y-4">
+      <li>
+        <button
+          class="w-full text-left flex items-center px-4 py-2 rounded hover:bg-gray-700"
+          [ngClass]="{
+            'bg-gray-800': activeTab === 'profile',
+            'text-green-400': activeTab === 'profile'
+          }"
+          (click)="setActiveTab('profile')"
+        >
+          <i class="fas fa-user-circle mr-2"></i> Profile
+        </button>
+      </li>
+      <li>
+        <button
+          class="w-full text-left flex items-center px-4 py-2 rounded hover:bg-gray-700"
+          [ngClass]="{
+            'bg-gray-800': activeTab === 'notifications',
+            'text-green-400': activeTab === 'notifications'
+          }"
+          (click)="setActiveTab('notifications')"
+        >
+          <i class="fas fa-bell mr-2"></i> Notifications
+        </button>
+      </li>
+      <li>
+        <button
+          class="w-full text-left flex items-center px-4 py-2 rounded hover:bg-gray-700"
+          [ngClass]="{
+            'bg-gray-800': activeTab === 'offers',
+            'text-green-400': activeTab === 'offers'
+          }"
+          (click)="setActiveTab('offers')"
+        >
+          <i class="fas fa-handshake mr-2"></i> Offers
+        </button>
+      </li>
+      <li>
+        <button
+          class="w-full text-left flex items-center px-4 py-2 rounded hover:bg-gray-700"
+          [ngClass]="{
+            'bg-gray-800': activeTab === 'support',
+            'text-green-400': activeTab === 'support'
+          }"
+          (click)="setActiveTab('support')"
+        >
+          <i class="fas fa-shield-alt mr-2"></i> Account support
+        </button>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Main Content -->
+  <div class="content flex-1 p-8">
+    <ng-container *ngIf="activeTab === 'profile'">
+      <app-profile></app-profile>
+    </ng-container>
+    <ng-container *ngIf="activeTab === 'notifications'">
+      <app-notifications></app-notifications>
+    </ng-container>
+    <ng-container *ngIf="activeTab === 'offers'">
+      <app-offers></app-offers>
+    </ng-container>
+    <ng-container *ngIf="activeTab === 'support'">
+      <app-support></app-support>
+    </ng-container>
+  </div>
+</div>
+<app-footer></app-footer>

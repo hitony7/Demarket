@@ -7,14 +7,23 @@ import { CommonModule } from '@angular/common';
 import { UserListingsPrivateComponent } from './user-listings-private/user-listings-private.component';
 
 
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faCog } from '@fortawesome/free-solid-svg-icons'; // Import the gear icon
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [HeaderComponent, FooterComponent, CommonModule, UserListingsPrivateComponent],
+  imports: [HeaderComponent, FooterComponent, CommonModule, UserListingsPrivateComponent, FontAwesomeModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent implements OnInit{
+
+  faCog = faCog; // Define the icon
+  
+navigateToEditProfile() {
+  this.router.navigate([`/settings`]); //private profile 
+}
   user:any;
   userId: string | null = null;
   userName: string | undefined;
@@ -25,7 +34,7 @@ export class DashboardComponent implements OnInit{
   links: string | undefined;
   activeTab: string | undefined;
 
-  constructor(private authService: AuthService, private userService: UserService){}
+  constructor(private authService: AuthService, private userService: UserService, private router: Router){}
 
 
 

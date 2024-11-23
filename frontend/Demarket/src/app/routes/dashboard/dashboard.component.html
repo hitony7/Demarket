@@ -11,6 +11,15 @@
       Icon
     </div>
     <h1 class="text-4xl font-bold mb-2">{{ userName || "User Name" }}</h1>
+
+    <!-- Edit Profile Button with Green Background and Gear Icon -->
+    <button
+      class="bg-green-500 text-white flex items-center px-4 py-2 rounded hover:bg-green-600 transition mt-4"
+      (click)="navigateToEditProfile()"
+    >
+      <fa-icon [icon]="faCog" class="mr-2"></fa-icon>
+      Edit Profile
+    </button>
   </div>
 
   <!-- Profile Details -->

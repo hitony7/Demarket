@@ -12,11 +12,10 @@ import { interval, Subscription } from 'rxjs';
 
 
 @Component({
-  selector: 'app-listing',
-  standalone: true,
-  imports: [FooterComponent, HeaderComponent, CommonModule],
-  templateUrl: './listing.component.html',
-  styleUrl: './listing.component.scss'
+    selector: 'app-listing',
+    imports: [FooterComponent, HeaderComponent, CommonModule],
+    templateUrl: './listing.component.html',
+    styleUrl: './listing.component.scss'
 })
 export class ListingComponent implements OnInit {
   itemId!: string;

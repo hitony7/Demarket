@@ -8,17 +8,16 @@ import { AuthService } from '../../shared/services/auth.service'; // Inject Auth
 import { ListingCardComponent } from '../../shared/ui/listing-card/listing-card.component';
 
 @Component({
-  selector: 'app-listingpage',
-  standalone: true,
-  imports: [
-    HeaderComponent,
-    FooterComponent,
-    RouterModule,
-    CommonModule,
-    ListingCardComponent,
-  ],
-  templateUrl: './listingpage.component.html',
-  styleUrls: ['./listingpage.component.scss'], // Fixed typo from `styleUrl` to `styleUrls`
+    selector: 'app-listingpage',
+    imports: [
+        HeaderComponent,
+        FooterComponent,
+        RouterModule,
+        CommonModule,
+        ListingCardComponent,
+    ],
+    templateUrl: './listingpage.component.html',
+    styleUrls: ['./listingpage.component.scss']
 })
 export class ListingpageComponent implements OnInit {
     categories: string[] = [

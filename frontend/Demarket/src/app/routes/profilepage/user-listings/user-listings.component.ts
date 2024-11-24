@@ -5,11 +5,10 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router'; 
 
 @Component({
-  selector: 'app-user-listings',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './user-listings.component.html',
-  styleUrls: ['./user-listings.component.scss'],
+    selector: 'app-user-listings',
+    imports: [CommonModule],
+    templateUrl: './user-listings.component.html',
+    styleUrls: ['./user-listings.component.scss']
 })
 export class UserListingsComponent implements OnInit {
   @Input() userId!: string; // Input to receive the user ID

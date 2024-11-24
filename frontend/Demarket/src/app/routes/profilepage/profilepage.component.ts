@@ -8,11 +8,10 @@ import { ActivatedRoute, Route } from '@angular/router';
 import { OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-profilepage',
-  standalone: true,
-  imports: [HeaderComponent, FooterComponent, UserListingsComponent, CommonModule],
-  templateUrl: './profilepage.component.html',
-  styleUrl: './profilepage.component.scss'
+    selector: 'app-profilepage',
+    imports: [HeaderComponent, FooterComponent, UserListingsComponent, CommonModule],
+    templateUrl: './profilepage.component.html',
+    styleUrl: './profilepage.component.scss'
 })
 export class ProfilepageComponent implements OnInit {
   userId: string | null = null;

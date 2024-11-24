@@ -7,11 +7,10 @@ import { WalletService } from '../../services/wallet.service';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
-  selector: 'app-login-box',
-  standalone: true,
-  templateUrl: './loginbox.component.html',
-  styleUrls: ['./loginbox.component.scss'],
-  imports: [FormsModule, CommonModule],
+    selector: 'app-login-box',
+    templateUrl: './loginbox.component.html',
+    styleUrls: ['./loginbox.component.scss'],
+    imports: [FormsModule, CommonModule]
 })
 export class LoginBoxComponent {
   @Input() isModalOpen = false;

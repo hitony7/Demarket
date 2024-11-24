@@ -8,11 +8,10 @@ import { ListingService } from '../../shared/services/listings.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-create-listing',
-  standalone: true,
-  imports: [HeaderComponent, FooterComponent, ReactiveFormsModule, CommonModule],
-  templateUrl: './create-listing.component.html',
-  styleUrls: ['./create-listing.component.scss'], // Fixed typo here
+    selector: 'app-create-listing',
+    imports: [HeaderComponent, FooterComponent, ReactiveFormsModule, CommonModule],
+    templateUrl: './create-listing.component.html',
+    styleUrls: ['./create-listing.component.scss']
 })
 export class CreateListingComponent implements OnInit {
   listingForm: FormGroup;

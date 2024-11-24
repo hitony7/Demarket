@@ -7,11 +7,10 @@ import { ProfileComponent } from './tabs/profile/profile.component';
 import { CommonModule } from '@angular/common';
 import { SupportComponent } from './tabs/support/support.component';
 @Component({
-  selector: 'app-settings-page',
-  standalone: true,
-  imports: [HeaderComponent, FooterComponent, NotificationsComponent, SupportComponent, ProfileComponent, OffersComponent, CommonModule],
-  templateUrl: './settings-page.component.html',
-  styleUrl: './settings-page.component.scss'
+    selector: 'app-settings-page',
+    imports: [HeaderComponent, FooterComponent, NotificationsComponent, SupportComponent, ProfileComponent, OffersComponent, CommonModule],
+    templateUrl: './settings-page.component.html',
+    styleUrl: './settings-page.component.scss'
 })
 export class SettingsPageComponent {
 

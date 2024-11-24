@@ -11,11 +11,10 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCog } from '@fortawesome/free-solid-svg-icons'; // Import the gear icon
 import { Router } from '@angular/router';
 @Component({
-  selector: 'app-dashboard',
-  standalone: true,
-  imports: [HeaderComponent, FooterComponent, CommonModule, UserListingsPrivateComponent, FontAwesomeModule],
-  templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss'
+    selector: 'app-dashboard',
+    imports: [HeaderComponent, FooterComponent, CommonModule, UserListingsPrivateComponent, FontAwesomeModule],
+    templateUrl: './dashboard.component.html',
+    styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent implements OnInit{
 

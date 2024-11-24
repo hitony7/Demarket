@@ -153,15 +153,13 @@ exports.updateUserById = async (req, res) => {
       }
       updates.email = email;
     }
-
     if (links) {
-      // Ensure all links are valid URLs
-      if (!Array.isArray(links) || !links.every(link => validator.isURL(link))) {
-        return res.status(400).json({ message: 'All links must be valid URLs' });
+      // Validate the `link` as a single URL
+      if (!validator.isURL(links)) {
+        return res.status(400).json({ message: 'The provided link must be a valid URL' });
       }
       updates.links = links;
     }
-
     console.log("Validated updates:", updates);
 
     // Update the user in the database

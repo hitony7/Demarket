@@ -2,6 +2,8 @@
 const User = require('../models/user');
 const Listing = require('../models/listings')
 const jwt = require('jsonwebtoken');
+const validator = require('validator'); // Use the validator library for email and link validation
+
 
 // @desc    Get specific user by ID (Protected version)
 // @route   GET /api/users/:id
@@ -108,7 +110,78 @@ exports.getAllListingsByUserId = async (req, res) => {
   }
 };
 
+// @desc    Update user details by ID
+// @route   PUT /api/users/:id
+// @access  Private
+exports.updateUserById = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const { username, bio, email, links } = req.body;
 
-  exports.updateUserById = async (req, res) => {
+    console.log("Received update request for user ID:", userId);
 
-  };
+    // Initialize an empty updates object
+    const updates = {};
+
+    // Check and validate each field
+    if (username) {
+      // Check if username is unique
+      const existingUser = await User.findOne({ username });
+      if (existingUser && existingUser._id.toString() !== userId) {
+        return res.status(400).json({ message: 'Username is already taken' });
+      }
+      updates.username = username;
+    }
+
+    if (bio) {
+      // Ensure bio is under 250 characters
+      if (bio.length > 250) {
+        return res.status(400).json({ message: 'Bio must be under 250 characters' });
+      }
+      updates.bio = bio;
+    }
+
+    if (email) {
+      // Validate email format
+      if (!validator.isEmail(email)) {
+        return res.status(400).json({ message: 'Invalid email address' });
+      }
+      // Check if email is unique
+      const existingEmailUser = await User.findOne({ email });
+      if (existingEmailUser && existingEmailUser._id.toString() !== userId) {
+        return res.status(400).json({ message: 'Email is already in use' });
+      }
+      updates.email = email;
+    }
+
+    if (links) {
+      // Ensure all links are valid URLs
+      if (!Array.isArray(links) || !links.every(link => validator.isURL(link))) {
+        return res.status(400).json({ message: 'All links must be valid URLs' });
+      }
+      updates.links = links;
+    }
+
+    console.log("Validated updates:", updates);
+
+    // Update the user in the database
+    const updatedUser = await User.findByIdAndUpdate(userId, updates, {
+      new: true, // Return the updated document
+      runValidators: true, // Run mongoose schema validations
+    });
+
+    if (!updatedUser) {
+      console.warn(`User with ID ${userId} not found`);
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    console.log("User successfully updated:", updatedUser);
+    res.json({
+      message: 'User updated successfully',
+      user: updatedUser,
+    });
+  } catch (error) {
+    console.error("Error updating user:", error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};

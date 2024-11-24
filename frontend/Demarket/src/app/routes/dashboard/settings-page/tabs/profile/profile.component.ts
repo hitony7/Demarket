@@ -4,6 +4,7 @@ import { User } from '../../../../../shared/models/user.model';
 import { UserService } from '../../../../../shared/services/user.service';
 import { AuthService } from '../../../../../shared/services/auth.service';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -17,19 +18,21 @@ export class ProfileComponent implements OnInit {
   profileForm!: FormGroup; // FormGroup to manage form fields
   isLoading: boolean = false; // Loading state for better UX
   updateSuccess: boolean | null = null; // Tracks update status for feedback
+  
 
   constructor(
     private userService: UserService,
     private authService: AuthService,
-    private fb: FormBuilder // Inject FormBuilder
+    private fb: FormBuilder, // Inject FormBuilder
+    private router: Router // Inject Router
   ) {}
 
   ngOnInit(): void {
     // Initialize form with custom validation
     this.profileForm = this.fb.group(
       {
-        username: ['', [Validators.minLength(4)]], // Username must be at least 4 characters if provided
-        bio: [''],
+        username: ['', [Validators.minLength(4), Validators.maxLength(15)]], // Username must be at least 4 characters if provided Max 15
+        bio: ['', [Validators.maxLength(250)]],    //Max of 250 characters
         email: ['', Validators.email], // Email must be valid if provided
         links: ['']
       },
@@ -99,6 +102,11 @@ export class ProfileComponent implements OnInit {
           console.log('Profile updated successfully:', response);
           this.updateSuccess = true;
           this.isLoading = false;
+          alert('Profile updated successfully');
+              // Refresh the current route
+          this.router.navigateByUrl('/settings', { skipLocationChange: true }).then(() => {
+            this.router.navigate([this.router.url]);
+          });
         },
         error: (err) => {
           console.error('Error updating profile:', err);

@@ -1,0 +1,19 @@
+<div
+  class="flex items-center justify-center w-64 h-12 rounded-full bg-gray-200 shadow-md overflow-hidden"
+>
+  <!-- Upvote Button -->
+  <button
+    class="flex-1 h-full text-white bg-green-500 hover:bg-green-600 font-bold"
+    (click)="upvote()"
+  >
+    Upvote {{ upvotes }}
+  </button>
+
+  <!-- Downvote Button -->
+  <button
+    class="flex-1 h-full text-white bg-red-500 hover:bg-red-600 font-bold"
+    (click)="downvote()"
+  >
+    Downvote {{ downvotes }}
+  </button>
+</div>

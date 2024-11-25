@@ -9,11 +9,12 @@ import { ListingService } from '../../shared/services/listings.service';
 import { UserService } from '../../shared/services/user.service';
 import { Router } from '@angular/router';
 import { interval, Subscription } from 'rxjs';
+import { VotertrackerComponent } from './votertracker/votertracker.component';
 
 
 @Component({
     selector: 'app-listing',
-    imports: [FooterComponent, HeaderComponent, CommonModule],
+    imports: [FooterComponent, HeaderComponent, CommonModule, VotertrackerComponent],
     templateUrl: './listing.component.html',
     styleUrl: './listing.component.scss'
 })

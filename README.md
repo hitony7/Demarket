@@ -68,7 +68,12 @@ The backend is a Node.js application with Express, located in the `backend` dire
    export const environment = {
     production: false,                   // Set to true for production
     apiBaseUrl: 'http://localhost:3000', // Replace with your backend API URL
+    infura: {
+         projectId: 'your-infura-project-id',
+         projectSecret: 'your-infura-project-secret',
+      },
     };
+
    ```
 
 3. Smart Contracts:

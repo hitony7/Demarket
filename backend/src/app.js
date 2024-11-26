@@ -1,8 +1,14 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-require('dotenv').config();
-const multer = require('multer'); // Import multer
+import dotenv from 'dotenv'; // Import dotenv for environment variables
+dotenv.config(); // Load environment variables
+
+
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import multer from 'multer'; // Import multer
+import apiRoutes from './routes/index.js'; // Adjust path as needed
+import { errorHandler} from './middleware/errorhandler.js'; // Adjust path as needed
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -18,7 +24,8 @@ const upload = multer();
 app.use(upload.none()); // This will parse form-data with no files
 
 // Database connection
-mongoose.connect(process.env.MONGODB_URI)
+mongoose
+  .connect(process.env.MONGODB_URI)
   .then(() => console.log('Connected to MongoDB'))
   .catch((err) => console.error('MongoDB connection error:', err));
 
@@ -28,11 +35,13 @@ app.use((req, res, next) => {
   next(); // Pass control to the next middleware function
 });
 
-// Routes base route is /api 
-app.use('/api', require('./routes'));
+// Routes base route is /api
+app.use('/api', apiRoutes);
 
-app.use(require('./middleware/errorhandler'));
+// Error handling middleware
+app.use(errorHandler);
 
+// Start server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

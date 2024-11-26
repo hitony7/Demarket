@@ -1,14 +1,18 @@
-const User = require('../models/user');
-const crypto = require('crypto');
-const ethUtil = require('ethereumjs-util');
-const jwt = require('jsonwebtoken');
-const { ethers } = require('ethers'); // Import ethers.js
+import dotenv from 'dotenv'; // Import dotenv for environment variables
+dotenv.config(); // Load environment variables
+
+import User from '../models/user.js'; // Assuming you are exporting `User` as a default export
+import crypto from 'crypto';
+import * as ethUtil from 'ethereumjs-util';
+import jwt from 'jsonwebtoken';
+import { ethers } from 'ethers'; // Import ethers.js
+
 
 // Temporary private key for testing purposes (do not use in production)
 const TEST_PRIVATE_KEY = process.env.PRIVATE_KEY_DEV; // Replace with an actual private key for testing
 
 
-exports.requestNonce = async (req, res) => { 
+export const requestNonce = async (req, res) => { 
   const { walletAddress } = req.body;
 
   console.log('Received request for nonce with walletAddress:', walletAddress);
@@ -53,7 +57,7 @@ exports.requestNonce = async (req, res) => {
   }
 };
 
-exports.verifySignature = async (req, res) => {
+export const verifySignature = async (req, res) => {
   console.log("Received request to verify signature");
 
   const { walletAddress, signature } = req.body;
@@ -132,7 +136,7 @@ exports.verifySignature = async (req, res) => {
 
 
 // Generates a signature for the provided nonce using the test private key (for testing purposes only)
-exports.generateSignatureForTesting = async (req, res) => {
+export const generateSignatureForTesting = async (req, res) => {
   const { nonce } = req.body;
 
   if (!nonce) {
@@ -155,4 +159,11 @@ exports.generateSignatureForTesting = async (req, res) => {
     console.error("Error generating signature:", error);
     res.status(500).json({ message: 'Server error' });
   }
+};
+
+
+export default {
+  requestNonce,
+  verifySignature,
+  generateSignatureForTesting,
 };

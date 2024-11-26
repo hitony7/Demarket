@@ -1,12 +1,12 @@
 // controllers/listingController.js
 
-const Listing = require('../models/listings');
+import Listing from '../models/listings.js';
 
 /**
  * Create a new listing
  * POST /api/listings
  */
-exports.createListing = async (req, res) => {
+export const createListing = async (req, res) => {
   console.log("Received request body:", req.body);
   try {
     const {
@@ -76,7 +76,7 @@ exports.createListing = async (req, res) => {
 // @route   GET /api/listings
 // @access  Public
 // Get all listings
-exports.getAllListings = async (req, res) => {
+export const getAllListings = async (req, res) => {
   try {
     const listings = await Listing.find();
     res.status(200).json(listings);
@@ -89,12 +89,12 @@ exports.getAllListings = async (req, res) => {
 // @desc    Get listings with optional category filter and pagination
 // @route   GET /api/listings
 // @access  Public
-exports.getListings = async (req, res) => {
+export const getListings = async (req, res) => {
   const { category, page, pageSize } = req.query;
 
   if (!category && !page && !pageSize) {
     // No query parameters; return all listings
-    return this.getAllListings(req, res);
+    return getAllListings(req, res);
   }
 
   // Apply filtering and pagination
@@ -127,7 +127,7 @@ exports.getListings = async (req, res) => {
   }
 };
 // Get a specific listing by ID
-exports.getListingById = async (req, res) => {
+export const getListingById = async (req, res) => {
   try {
     const listing = await Listing.findById(req.params.id);
 
@@ -146,7 +146,7 @@ exports.getListingById = async (req, res) => {
 };
 
 // Update a specific listing
-exports.updateListing = async (req, res) => {
+export const updateListing = async (req, res) => {
   try {
     const updatedListing = await Listing.findByIdAndUpdate(
       req.params.id,
@@ -175,7 +175,7 @@ exports.updateListing = async (req, res) => {
 };
 
 // Delete a specific listing
-exports.deleteListing = async (req, res) => {
+export const deleteListing = async (req, res) => {
   try {
     const deletedListing = await Listing.findByIdAndDelete(req.params.id);
 
@@ -191,4 +191,14 @@ exports.deleteListing = async (req, res) => {
       res.status(500).json({ message: 'Server error' });
     }
   }
+};
+
+
+export default {
+  createListing,
+  getAllListings,
+  getListings,
+  getListingById,
+  updateListing,
+  deleteListing,
 };

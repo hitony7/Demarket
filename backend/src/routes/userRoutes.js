@@ -1,8 +1,9 @@
 // /routes/userRoutes.js
-const express = require('express');
+import express from 'express';
+import * as userController from '../controllers/userController.js';
+import { protect } from '../middleware/authMiddleware.js';
+
 const router = express.Router();
-const userController = require('../controllers/userController');
-const { protect } = require('../middleware/authMiddleware');
 
 //Base Url api/users
 
@@ -22,4 +23,4 @@ router.put('/:id', protect, userController.updateUserById);
 router.get('/:id/listings' , userController.getAllListingsByUserId);
 
 
-module.exports = router;
+export default router;

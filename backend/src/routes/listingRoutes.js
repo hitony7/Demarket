@@ -1,10 +1,9 @@
 // /routes/listingRoutes.js
-const express = require('express');
+import express from 'express';
+import * as listingController from '../controllers/listingController.js';
+import { protect } from '../middleware/authMiddleware.js';
+
 const router = express.Router();
-const listingController = require('../controllers/listingController');
-const { protect } = require('../middleware/authMiddleware');
-
-
 // POST /api/listings - Create a new listing (Protected)
 router.post('/', protect, listingController.createListing);
 
@@ -24,4 +23,5 @@ router.put('/:id', protect, listingController.updateListing);
 // DELETE /api/listings/:id - Delete a specific listing (Protected)
 router.delete('/:id', protect, listingController.deleteListing);
 
-module.exports = router;
+export default router;
+

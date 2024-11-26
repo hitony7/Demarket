@@ -1,14 +1,14 @@
 // /controllers/userController.js
-const User = require('../models/user');
-const Listing = require('../models/listings')
-const jwt = require('jsonwebtoken');
-const validator = require('validator'); // Use the validator library for email and link validation
+import User from '../models/user.js'; // Assuming `User` is the default export
+import Listing from '../models/listings.js'; // Assuming `Listing` is the default export
+import jwt from 'jsonwebtoken'; // Default export from jsonwebtoken library
+import validator from 'validator'; // Default export from validator library
 
 
 // @desc    Get specific user by ID (Protected version)
 // @route   GET /api/users/:id
 // @access  Private
-exports.getUserById = async (req, res) => {
+export const getUserById = async (req, res) => {
   try {
       console.log('Received request to get user by ID:', req.params.id);
 
@@ -31,7 +31,7 @@ exports.getUserById = async (req, res) => {
 // @desc    Get specific user by ID (Public version)
 // @route   GET /api/users/:id/public
 // @access  Public
-exports.getUserByIdPublic = async (req, res) => {
+export const getUserByIdPublic = async (req, res) => {
   try {
     console.log("Received request to get public user data for ID:", req.params.id);
 
@@ -67,7 +67,7 @@ exports.getUserByIdPublic = async (req, res) => {
 // @desc    Get specific user by wallet address (Public version)
 // @route   GET /api/users/by-wallet/:walletAddress
 // @access  Public
-exports.getUserByWalletAddressPublic = async (req, res) => {
+export const getUserByWalletAddressPublic = async (req, res) => {
   try {
       const walletAddress = req.params.walletAddress.toLowerCase(); // Normalize to lowercase
       
@@ -88,7 +88,7 @@ exports.getUserByWalletAddressPublic = async (req, res) => {
 // @desc    Get all listings by User ID
 // @route   GET /api/users/:id/listings
 // @access  Public
-exports.getAllListingsByUserId = async (req, res) => {
+export const getAllListingsByUserId = async (req, res) => {
   try {
     const userId = req.params.id;
 
@@ -113,7 +113,7 @@ exports.getAllListingsByUserId = async (req, res) => {
 // @desc    Update user details by ID
 // @route   PUT /api/users/:id
 // @access  Private
-exports.updateUserById = async (req, res) => {
+export const updateUserById = async (req, res) => {
   try {
     const userId = req.params.id;
     const { username, bio, email, links } = req.body;
@@ -182,4 +182,14 @@ exports.updateUserById = async (req, res) => {
     console.error("Error updating user:", error);
     res.status(500).json({ message: 'Server error' });
   }
+};
+
+
+export default {
+  getUserById,
+  getUserByIdPublic,
+  getUserByWalletAddressPublic,
+  getAllListingsByUserId,
+  updateUserById,
+  
 };

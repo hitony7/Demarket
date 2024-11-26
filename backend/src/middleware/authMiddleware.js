@@ -1,9 +1,9 @@
 // middleware/authMiddleware.js
 
-const jwt = require('jsonwebtoken');
-const User = require('../models/user');
+import User from '../models/user.js'; // Assuming `User` is the default export
+import jwt from 'jsonwebtoken'; // Default export from jsonwebtoken library
 
-exports.protect = async (req, res, next) => {
+export const protect = async  (req, res, next) => {
   let token;
 
   if (

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const imageSchema = new mongoose.Schema({
   listingId: { type: mongoose.Schema.Types.ObjectId, ref: 'Listing', required: true }, // Reference to the listing
@@ -10,4 +10,6 @@ const imageSchema = new mongoose.Schema({
   uploadedAt: { type: Date, default: Date.now }, // Upload timestamp
 });
 
-module.exports = mongoose.model('Image', imageSchema);
+const Image = mongoose.model('Image', imageSchema);
+
+export default Image;

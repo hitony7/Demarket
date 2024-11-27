@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, lastValueFrom } from 'rxjs';
 import { WalletService } from './wallet.service';
 import { isPlatformBrowser } from '@angular/common';
-import { environment } from '../../../../src/environment/environment'; // Import environment for API base URL
+import { environment } from '../../../environment/enviroment.prod';
 import { jwtDecode } from "jwt-decode";
 
 

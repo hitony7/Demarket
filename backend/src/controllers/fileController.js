@@ -30,7 +30,7 @@ export const uploadFileToIPFS = async (req, res) => {
     }
     // Send success response
     return res.status(200).json({
-      message: 'File uploaded successfully CONTROLLER',
+      message: 'File uploaded successfully',
       ipfsHash: result.ipfsHash,
       fileUrl: result.fileUrl,
     });

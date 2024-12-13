@@ -45,7 +45,6 @@ const uploadToPinata = async (file) => {
       fileUrl: `${customGateway}/${IpfsHash}`,
     };
   } catch (error) {
-    console.log('sdafasidfgioajkfiuhwea');
     console.error('Error uploading file to Pinata:', error.message);
     if (error.response) {
       console.error('Pinata API Response:', error.response.data);

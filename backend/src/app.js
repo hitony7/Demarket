@@ -18,10 +18,10 @@ app.use(cors());
 app.use(express.json()); // Parses JSON requests
 
 // Multer setup to handle multipart form data
-const upload = multer();
+//const upload = multer();
 
 // Use multer globally for multipart form data
-app.use(upload.none()); // This will parse form-data with no files
+//app.use(upload.none()); // This will parse form-data with no files
 
 // Database connection
 mongoose

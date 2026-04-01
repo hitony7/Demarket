@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'; // Import dotenv for environment variables
 dotenv.config(); // Load environment variables
 
-import User from '../models/user.js'; // Assuming you are exporting `User` as a default export
+import User from '../models/User.js'; // Assuming you are exporting `User` as a default export
 import crypto from 'crypto';
 import * as ethUtil from 'ethereumjs-util';
 import jwt from 'jsonwebtoken';

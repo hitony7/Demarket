@@ -1,6 +1,6 @@
 // middleware/authMiddleware.js
 
-import User from '../models/user.js'; // Assuming `User` is the default export
+import User from '../models/User.js'; // Assuming `User` is the default export
 import jwt from 'jsonwebtoken'; // Default export from jsonwebtoken library
 
 export const protect = async  (req, res, next) => {

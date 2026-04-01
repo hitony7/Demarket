@@ -1,5 +1,5 @@
 // /controllers/userController.js
-import User from '../models/user.js'; // Assuming `User` is the default export
+import User from '../models/User.js'; // Assuming `User` is the default export
 import Listing from '../models/listings.js'; // Assuming `Listing` is the default export
 import jwt from 'jsonwebtoken'; // Default export from jsonwebtoken library
 import validator from 'validator'; // Default export from validator library

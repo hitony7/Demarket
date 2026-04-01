@@ -53,6 +53,11 @@ truffle compile
 
 Compiled artifacts are written to `build/contracts/`.
 
+Status:
+
+- compile command is documented
+- it was not re-run in this update
+
 ## Test
 
 ```bash
@@ -60,6 +65,11 @@ truffle test
 ```
 
 The current test suite lives in `test/DecentralizedEscrow.test.js`.
+
+Status:
+
+- test command is documented
+- it was not re-run in this update
 
 ## Deploy
 

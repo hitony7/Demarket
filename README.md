@@ -189,6 +189,12 @@ npm run build
 
 The current production build completes successfully and outputs to `frontend/Demarket/dist/demarket`.
 
+Build notes:
+
+- `npm run build` is currently working
+- the build still reports a Sass `@import` deprecation warning
+- the initial bundle currently exceeds the configured Angular size budget
+
 ### 5. Work with smart contracts
 
 Start Ganache, then run:
@@ -201,11 +207,43 @@ truffle test
 
 Use `truffle migrate` to deploy to your configured network.
 
-## Testing
+## Build And Test Status
 
-- Frontend: `cd frontend/Demarket && npm test`
-- Backend: no automated backend test suite is configured yet
-- Smart contracts: `cd smart-contracts && truffle test`
+### Frontend
+
+Available commands:
+
+- `cd frontend/Demarket && npm run build`
+- `cd frontend/Demarket && npm test`
+
+Current status:
+
+- `npm run build` succeeds
+- `npm test` is available but was not revalidated in this update
+
+### Backend
+
+Available commands:
+
+- `cd backend && npm run dev`
+- `cd backend && npm test`
+
+Current status:
+
+- `npm run dev` points to the correct entrypoint and uses Node watch mode
+- no real backend test suite is configured yet
+
+### Smart Contracts
+
+Available commands:
+
+- `cd smart-contracts && truffle compile`
+- `cd smart-contracts && truffle test`
+
+Current status:
+
+- contract compile/test commands are documented
+- they were not re-run in this update
 
 ## Known Notes
 

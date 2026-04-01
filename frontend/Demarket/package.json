@@ -1,6 +1,7 @@
 {
   "name": "demarket",
   "version": "0.0.0",
+  "packageManager": "npm@11.6.2",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

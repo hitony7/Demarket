@@ -53,5 +53,3 @@ Thumbs.db
 .env.test.local
 .env.production.local
 
-#Environment Angular
-frontend/Demarket/src/environment/*.ts

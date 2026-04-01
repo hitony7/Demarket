@@ -1,153 +1,192 @@
 # Demarket
 
-Demarket is a full-stack web application built with Angular on the frontend and Node.js with Express on the backend. It's designed to be a decentralized marketplace platform.
+Demarket is a decentralized marketplace prototype with three main parts:
 
-## Project Structure
+- An Angular frontend in `frontend/Demarket`
+- An Express + MongoDB backend in `backend`
+- A Solidity escrow contract in `smart-contracts`
 
-The project is divided into two main parts:
+The app is structured around wallet-based authentication, marketplace listings, user profiles, file uploads to IPFS through Pinata, and an escrow flow for marketplace transactions.
 
-1. Frontend (Angular)
-2. Backend (Node.js/Express)
-3. Smart Contracts (Solidity)
+## Repository Layout
 
-### Frontend
+```text
+Demarket/
+|- backend/           Express API, MongoDB models, auth, uploads
+|- frontend/Demarket/ Angular application and UI routes
+|- smart-contracts/   Solidity contract, Truffle config, tests
+|- README.md
+```
 
-The frontend is an Angular application located in the `frontend/Demarket` directory.
+## Current Stack
 
-### Backend
+- Frontend: Angular 19, Tailwind CSS, ethers.js, web3
+- Backend: Node.js, Express, MongoDB with Mongoose, JWT auth, Multer
+- Storage: Pinata / IPFS uploads
+- Blockchain: Solidity with Truffle
 
-The backend is a Node.js application with Express, located in the `backend` directory.
+## Frontend Routes
+
+The Angular app currently includes these main routes:
+
+- `/` - landing page
+- `/listings` - marketplace listing index
+- `/listing/:id` - single listing detail page
+- `/createlistings` - protected listing creation page
+- `/profile/:id` - public user profile
+- `/dashboard` - protected user dashboard
+- `/settings` - settings page
+
+## Backend API
+
+The API is mounted at `/api`.
+
+### Auth
+
+- `POST /api/auth/request-nonce`
+- `POST /api/auth/verify-signature`
+- `POST /api/auth/generate-signature`
+
+### Listings
+
+- `POST /api/listing/`
+- `GET /api/listing/all`
+- `GET /api/listing/`
+- `GET /api/listing/:id`
+- `PUT /api/listing/:id`
+- `DELETE /api/listing/:id`
+
+### Users
+
+- `GET /api/users/:id`
+- `GET /api/users/by-wallet/:walletAddress`
+- `GET /api/users/:id/public`
+- `PUT /api/users/:id`
+- `GET /api/users/:id/listings`
+
+### Files
+
+- `POST /api/file/upload`
+- `POST /api/file/upload-images`
+- `GET /api/file/listings/:id`
+
+## Smart Contract
+
+The current on-chain contract is [`smart-contracts/contracts/DecentralizedEscrow.sol`](./smart-contracts/contracts/DecentralizedEscrow.sol).
+
+It supports:
+
+- buyer-funded escrow at deployment
+- buyer receipt confirmation
+- dispute creation by buyer or seller
+- dispute resolution by an arbiter
 
 ## Prerequisites
 
-- Node.js (v14 or later recommended)
-- npm (comes with Node.js)
-- Angular CLI (`npm install -g @angular/cli`)
-- MongoDB (Make sure it's installed and running)
-- Truffle Suite (`npm install -g truffle`)
-- Ganache (for local blockchain development)
+- Node.js 18+ recommended
+- npm
+- MongoDB instance
+- Truffle and Ganache for local smart contract work
+- A Pinata account for IPFS uploads
 
-## Setup and Installation
+## Environment Variables
 
-1. Clone the repository
-2. Install backend dependencies:
-   ```
-   cd backend
-   npm install
-   ```
-3. Install frontend dependencies:
-   ```
-   cd frontend/Demarket
-   npm install
-   ```
-4. Install smart contract dependencies:
-   ```
-   cd smart-contracts
-   npm install
-   ```
+Create `backend/.env` with the values your local environment needs:
 
-## Configuration
-
-1. Backend:
-
-   - Create a `.env` file in the `backend` directory
-   - Add the following environment variables:
-     ```
-     PORT=3000
-     MONGODB_URI=mongodb://localhost:27017/[your_database_name]
-     JWT_SECRET=[YOUR_JWT_SECRET]
-     PRIVATE_KEY_DEV= [PRIVATE_KEY FOR DEVELOPMENT TESTING]
-     ```
-
-2. Frontend:
-
-   - The frontend configuration is managed through Angular's environment files.
-   - Update the `environment.ts` and `environment.prod.ts` files in the `frontend/Demarket/src/environments` directory with your settings.
-
-   ```
-   export const environment = {
-    production: false,                   // Set to true for production
-    apiBaseUrl: 'http://localhost:3000', // Replace with your backend API URL
-    infura: {
-         projectId: 'your-infura-project-id',
-         projectSecret: 'your-infura-project-secret',
-      },
-    };
-
-   ```
-
-3. Smart Contracts:
-
-- Configure `truffle-config.js` in the `smart-contracts` directory with your network settings.
-
-## Running the Application
-
-1. Backend:
-
+```env
+PORT=3000
+MONGODB_URI=mongodb://127.0.0.1:27017/demarket
+JWT_SECRET=replace_with_a_real_secret
+PRIVATE_KEY_DEV=replace_with_a_test_wallet_private_key
+PINATA_API_KEY=your_pinata_api_key
+PINATA_API_SECRET=your_pinata_api_secret
 ```
 
+Notes:
+
+- `PRIVATE_KEY_DEV` is used by the testing signature endpoint and should never be a production key.
+- The backend currently throws on startup if the Pinata credentials are missing.
+
+## Installation
+
+### Backend
+
+```bash
 cd backend
-npm run dev
-
+npm install
 ```
 
-The server will start on `http://localhost:3000`
+### Frontend
 
-2. Frontend:
-
-```
-
+```bash
 cd frontend/Demarket
-ng serve
-
+npm install
 ```
 
-The Angular app will start on `http://localhost:4200`
+### Smart Contracts
 
-3. Smart Contracts:
+Install Truffle globally if needed:
 
-- Start Ganache for a local blockchain
-- Compile contracts:
-  ```
-  cd smart-contracts
-  truffle compile
-  ```
-- Deploy contracts:
-  ```
-  truffle migrate
-  ```
+```bash
+npm install -g truffle
+```
 
-## API Endpoints
+## Running Locally
 
-- GET `/api`: Welcome message
-- (Add more endpoints as they are developed)
+### 1. Start MongoDB
 
-## Smart Contracts
+Make sure your MongoDB server is running before starting the backend.
 
-The `smart-contracts` directory contains Solidity contracts that power the decentralized aspects of the marketplace. Key contracts include:
+### 2. Start the backend
 
-- `Marketplace.sol`: Handles core marketplace functionality
+```bash
+cd backend
+node src/app.js
+```
 
-For more details, see the [Smart Contracts README](./smart-contracts/README.md).
+Important:
+
+- `backend/package.json` currently defines `npm run dev` as `nodemon src/index.js`, but `src/index.js` does not exist in this repository.
+- Until that script is corrected, `node src/app.js` is the reliable local startup command.
+
+The API will be available at `http://localhost:3000/api`.
+
+### 3. Start the frontend
+
+```bash
+cd frontend/Demarket
+npm start
+```
+
+The frontend will be available at `http://localhost:4200`.
+
+### 4. Work with smart contracts
+
+Start Ganache, then run:
+
+```bash
+cd smart-contracts
+truffle compile
+truffle test
+```
+
+Use `truffle migrate` to deploy to your configured network.
 
 ## Testing
 
-- Backend: (Add instructions when tests are implemented)
-- Frontend: Run `ng test` to execute the unit tests via Karma
-- Smart Contracts: Run `truffle test` in the `smart-contracts` directory
+- Frontend: `cd frontend/Demarket && npm test`
+- Backend: no automated backend test suite is configured yet
+- Smart contracts: `cd smart-contracts && truffle test`
 
-## Deployment
+## Known Gaps
 
-(Add deployment instructions specific to your hosting environment and chosen blockchain network)
+- The root README previously referenced Angular environment files, but this repo does not currently include a `src/environments` directory in the frontend.
+- The backend dev script is out of sync with the actual source tree.
+- The smart-contracts folder contains a separate README, but it is partially duplicated and may need cleanup.
 
-## Built With
+## Next Improvements
 
-- [Angular](https://angular.io/) - The web framework used for the frontend
-- [Express](https://expressjs.com/) - The web framework used for the backend
-- [MongoDB](https://www.mongodb.com/) - The database used
-- [Mongoose](https://mongoosejs.com/) - MongoDB object modeling for Node.js
-- [Truffle](https://www.trufflesuite.com/truffle) - Development framework for Ethereum
-
-```
-
-```
+- fix the backend `dev` script to use the real entrypoint
+- add backend tests
+- add frontend environment configuration
+- document deployment targets and wallet/network setup

@@ -2,26 +2,26 @@
 
 Demarket is a decentralized marketplace prototype with three main parts:
 
-- An Angular frontend in `frontend/Demarket`
-- An Express + MongoDB backend in `backend`
-- A Solidity escrow contract in `smart-contracts`
+- an Angular frontend in `frontend/Demarket`
+- an Express + MongoDB backend in `backend`
+- a Solidity escrow contract in `smart-contracts`
 
-The app is structured around wallet-based authentication, marketplace listings, user profiles, file uploads to IPFS through Pinata, and an escrow flow for marketplace transactions.
+The project is built around wallet-based authentication, listing management, profile pages, image uploads to IPFS through Pinata, and an escrow contract for transaction handling.
 
 ## Repository Layout
 
 ```text
 Demarket/
-|- backend/           Express API, MongoDB models, auth, uploads
-|- frontend/Demarket/ Angular application and UI routes
-|- smart-contracts/   Solidity contract, Truffle config, tests
+|- backend/            Express API, auth, uploads, MongoDB models
+|- frontend/Demarket/  Angular application and SSR build setup
+|- smart-contracts/    Solidity contract, Truffle config, tests
 |- README.md
 ```
 
 ## Current Stack
 
-- Frontend: Angular 19, Tailwind CSS, ethers.js, web3
-- Backend: Node.js, Express, MongoDB with Mongoose, JWT auth, Multer
+- Frontend: Angular 21, Angular SSR, Tailwind CSS 4, Font Awesome 7, ethers.js, web3
+- Backend: Node.js, Express 5, MongoDB with Mongoose 9, JWT auth, Multer 2
 - Storage: Pinata / IPFS uploads
 - Blockchain: Solidity with Truffle
 
@@ -72,26 +72,30 @@ The API is mounted at `/api`.
 
 ## Smart Contract
 
-The current on-chain contract is [`smart-contracts/contracts/DecentralizedEscrow.sol`](./smart-contracts/contracts/DecentralizedEscrow.sol).
+The current contract is [`smart-contracts/contracts/DecentralizedEscrow.sol`](./smart-contracts/contracts/DecentralizedEscrow.sol).
 
 It supports:
 
-- buyer-funded escrow at deployment
-- buyer receipt confirmation
-- dispute creation by buyer or seller
-- dispute resolution by an arbiter
+- buyer-funded escrow on deployment
+- buyer confirmation of receipt
+- disputes opened by buyer or seller
+- arbiter-controlled dispute resolution
+
+See [smart-contracts/README.md](./smart-contracts/README.md) for contract-specific notes.
 
 ## Prerequisites
 
-- Node.js 18+ recommended
-- npm
-- MongoDB instance
-- Truffle and Ganache for local smart contract work
-- A Pinata account for IPFS uploads
+- Node.js 20+ recommended
+- npm 11+
+- MongoDB
+- Truffle and Ganache for local contract work
+- A Pinata account for file uploads
 
 ## Environment Variables
 
-Create `backend/.env` with the values your local environment needs:
+### Backend
+
+Create `backend/.env`:
 
 ```env
 PORT=3000
@@ -104,8 +108,23 @@ PINATA_API_SECRET=your_pinata_api_secret
 
 Notes:
 
-- `PRIVATE_KEY_DEV` is used by the testing signature endpoint and should never be a production key.
-- The backend currently throws on startup if the Pinata credentials are missing.
+- `PRIVATE_KEY_DEV` is only for the testing signature endpoint.
+- the backend currently throws on startup if Pinata credentials are missing
+- never commit backend secrets
+
+### Frontend
+
+The frontend now includes tracked environment files under `frontend/Demarket/src/environment/`:
+
+- `enviroment.ts`
+- `enviroment.prod.ts`
+
+They currently define safe defaults such as:
+
+- `production`
+- `apiBaseUrl`
+
+These files are intended to be committed because they are required for the app to compile and do not contain secrets.
 
 ## Installation
 
@@ -141,13 +160,14 @@ Make sure your MongoDB server is running before starting the backend.
 
 ```bash
 cd backend
-node src/app.js
+npm run dev
 ```
 
-Important:
+The backend dev script now uses:
 
-- `backend/package.json` currently defines `npm run dev` as `nodemon src/index.js`, but `src/index.js` does not exist in this repository.
-- Until that script is corrected, `node src/app.js` is the reliable local startup command.
+```bash
+node --watch src/app.js
+```
 
 The API will be available at `http://localhost:3000/api`.
 
@@ -160,7 +180,16 @@ npm start
 
 The frontend will be available at `http://localhost:4200`.
 
-### 4. Work with smart contracts
+### 4. Build the frontend
+
+```bash
+cd frontend/Demarket
+npm run build
+```
+
+The current production build completes successfully and outputs to `frontend/Demarket/dist/demarket`.
+
+### 5. Work with smart contracts
 
 Start Ganache, then run:
 
@@ -178,15 +207,16 @@ Use `truffle migrate` to deploy to your configured network.
 - Backend: no automated backend test suite is configured yet
 - Smart contracts: `cd smart-contracts && truffle test`
 
-## Known Gaps
+## Known Notes
 
-- The root README previously referenced Angular environment files, but this repo does not currently include a `src/environments` directory in the frontend.
-- The backend dev script is out of sync with the actual source tree.
-- The smart-contracts folder contains a separate README, but it is partially duplicated and may need cleanup.
+- The frontend uses tracked files in `src/environment`, but the folder/file name is currently spelled `enviroment` to match the existing imports.
+- `npm run build` currently succeeds, but the frontend still reports a Sass `@import` deprecation warning and a bundle-size budget warning.
+- The backend starts without MongoDB, but it will log a connection failure until a MongoDB instance is available.
 
 ## Next Improvements
 
-- fix the backend `dev` script to use the real entrypoint
+- rename `enviroment` to `environment` everywhere
+- replace the Sass `@import "tailwindcss"` usage with the newer non-deprecated pattern
+- reduce frontend bundle size or raise the current Angular budget thresholds
 - add backend tests
-- add frontend environment configuration
 - document deployment targets and wallet/network setup

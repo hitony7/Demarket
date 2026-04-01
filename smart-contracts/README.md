@@ -1,99 +1,89 @@
 # Demarket Smart Contracts
 
-This directory contains the smart contracts for the Demarket project, a decentralized marketplace platform.
+This directory contains the Solidity contract and Truffle configuration for Demarket's escrow flow.
 
-## Table of Contents
+## What Is Here
 
-1. [Overview](#overview)
-2. [Prerequisites](#prerequisites)
-3. [Directory Structure](#directory-structure)
-4. [Setup](#setup)
-5. [Compiling Contracts](#compiling-contracts)
-6. [Testing](#testing)
-7. [Deployment](#deployment)
-8. [Contract Interactions](#contract-interactions)
+- `contracts/DecentralizedEscrow.sol` - the main escrow contract
+- `test/DecentralizedEscrow.test.js` - contract tests
+- `truffle-config.js` - Truffle network configuration
+- `build/contracts/` - compiled artifact output
 
-## Overview
+## Current Contract
 
-The smart contracts in this directory form the backbone of the Demarket platform, handling crucial functionalities such as:
+`DecentralizedEscrow.sol` is a simple escrow contract with three roles:
 
-- User registration and authentication
-- Listing and purchasing of items
-- Token transactions (if applicable)
-- Dispute resolution mechanisms
+- buyer
+- seller
+- arbiter
 
-## Prerequisites
+Current behavior:
 
-- Node.js (v14.0.0 or later)
-- npm (usually comes with Node.js)
-- Truffle Suite (`npm install -g truffle`)
-- Ganache (for local blockchain development)
-
-## Directory Structure
-
-# Demarket Smart Contracts
-
-This directory contains the smart contracts for the Demarket project, a decentralized marketplace platform.
-
-## Table of Contents
-
-1. [Overview](#overview)
-2. [Prerequisites](#prerequisites)
-3. [Directory Structure](#directory-structure)
-4. [Setup](#setup)
-5. [Compiling Contracts](#compiling-contracts)
-6. [Testing](#testing)
-7. [Deployment](#deployment)
-8. [Contract Interactions](#contract-interactions)
-9. [Security Considerations](#security-considerations)
-10. [Gas Optimization](#gas-optimization)
-11. [Contributing](#contributing)
-12. [License](#license)
-
-## Overview
-
-The smart contracts in this directory form the backbone of the Demarket platform, handling crucial functionalities such as:
-
-- User registration and authentication
-- Listing and purchasing of items
-- Token transactions (if applicable)
-- Dispute resolution mechanisms
+- the buyer deploys the contract and funds it with ETH
+- the buyer can confirm receipt to release funds to the seller
+- the buyer or seller can open a dispute
+- the arbiter can resolve the dispute in favor of the seller or buyer
 
 ## Prerequisites
 
-- Node.js (v14.0.0 or later)
-- npm (usually comes with Node.js)
-- Truffle Suite (`npm install -g truffle`)
-- Ganache (for local blockchain development)
+- Node.js
+- npm
+- Truffle
+- Ganache or another Ethereum-compatible network
 
-## Setup
+Install Truffle globally if needed:
 
-1. Install dependencies:
+```bash
+npm install -g truffle
+```
 
-   ```
-   npm install
-   ```
+## Working In This Folder
 
-2. Start Ganache or connect to your preferred Ethereum network.
+From the repository root:
 
-3. Configure `truffle-config.js` with your network settings.
+```bash
+cd smart-contracts
+```
 
-## Compiling Contracts
+## Compile
 
-Compile the smart contracts using Truffle:
+```bash
+truffle compile
+```
 
-## Testing
+Compiled artifacts are written to `build/contracts/`.
 
-Run the test suite to ensure all contracts are functioning as expected:
+## Test
 
-Replace `<network_name>` with the name of the network you've configured in `truffle-config.js`.
+```bash
+truffle test
+```
 
-## Contract Interactions
+The current test suite lives in `test/DecentralizedEscrow.test.js`.
 
-(Provide examples of how to interact with your main contracts, e.g., creating a listing, making a purchase, etc.)
+## Deploy
 
-## Security Considerations
+Start Ganache or configure a target network in `truffle-config.js`, then run:
 
-- All contracts have been thoroughly tested, but use at your own risk.
-- Consider getting a professional audit before deploying to mainnet.
-- Implement access controls and use `require` statements to validate inputs.
+```bash
+truffle migrate
+```
+
+To redeploy from scratch:
+
+```bash
+truffle migrate --reset
+```
+
+## Notes
+
+- This contract is a prototype and should not be treated as production-ready.
+- No audit or formal security review is documented in this repository.
+- The `build/contracts` directory contains generated files and may need to be refreshed after contract changes.
+
+## Recommended Next Steps
+
+- expand test coverage for dispute edge cases
+- document expected constructor arguments and example deployment values
+- add clear local network instructions for Ganache
+- review the contract before any public-network deployment

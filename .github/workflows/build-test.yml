@@ -1,45 +1,75 @@
-name: Frontend Build and Test
+name: Build and Validate
 
 on:
+  push:
+    branches:
+      - main
+      - develop
   pull_request:
     branches:
       - main
       - develop
 
 jobs:
-  build-test:
+  frontend:
+    name: Frontend Build
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: frontend/Demarket
+
     steps:
-      # Step 1: Check out the repository
       - name: Check out code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      # Step 2: Set up Node.js v18.19 or higher
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '18.19' # Update to Node.js v18.19 or higher
+          node-version: 20
+          cache: npm
+          cache-dependency-path: frontend/Demarket/package-lock.json
 
-      # Step 3: Navigate to the frontend/Demarket directory
-      - name: Change to frontend/Demarket directory
-        run: cd frontend/Demarket
+      - name: Install frontend dependencies
+        run: npm ci
 
-      # Step 4: Install dependencies
-      - name: Install dependencies
-        run: npm install
-        working-directory: frontend/Demarket
+      - name: Type check frontend
+        run: npx tsc -p tsconfig.app.json --noEmit
 
-
-      # Step 6: Build the project
-      - name: Build the project
+      - name: Build frontend
         run: npm run build
-        working-directory: frontend/Demarket
 
-      # Step 7: Upload build artifacts (optional)
-      - name: Upload build artifacts
+      - name: Upload frontend build artifacts
         if: success()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: build-artifacts
-          path: frontend/Demarket/dist/ # Adjust this path based on the build output
+          name: frontend-dist
+          path: frontend/Demarket/dist/
+
+  backend:
+    name: Backend Smoke Check
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install backend dependencies
+        run: npm ci
+
+      - name: Smoke check route imports
+        env:
+          PINATA_API_KEY: test
+          PINATA_API_SECRET: test
+        run: node -e "import('./src/routes/index.js').then(() => console.log('backend routes ok')).catch((error) => { console.error(error); process.exit(1); })"

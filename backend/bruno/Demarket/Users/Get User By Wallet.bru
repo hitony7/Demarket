@@ -1,0 +1,15 @@
+meta {
+  name: Get User By Wallet
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}{{apiPrefix}}/users/by-wallet/{{walletAddress}}
+  body: none
+  auth: none
+}
+
+headers {
+  accept: application/json
+}

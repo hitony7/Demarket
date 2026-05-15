@@ -1,0 +1,25 @@
+meta {
+  name: Update User
+  type: http
+  seq: 5
+}
+
+put {
+  url: {{baseUrl}}{{apiPrefix}}/users/{{userId}}
+  body: json
+  auth: none
+}
+
+headers {
+  content-type: application/json
+  authorization: Bearer {{authToken}}
+}
+
+body:json {
+  {
+    "username": "demarket-user",
+    "bio": "Updated from Bruno",
+    "email": "demo@example.com",
+    "links": "https://example.com"
+  }
+}

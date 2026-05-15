@@ -1,0 +1,22 @@
+meta {
+  name: Verify Signature
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}{{apiPrefix}}/auth/verify-signature
+  body: json
+  auth: none
+}
+
+headers {
+  content-type: application/json
+}
+
+body:json {
+  {
+    "walletAddress": "{{walletAddress}}",
+    "signature": "{{signature}}"
+  }
+}

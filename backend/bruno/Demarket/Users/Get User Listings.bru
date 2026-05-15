@@ -1,0 +1,15 @@
+meta {
+  name: Get User Listings
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}{{apiPrefix}}/users/{{userId}}/listings
+  body: none
+  auth: none
+}
+
+headers {
+  accept: application/json
+}

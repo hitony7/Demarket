@@ -1,0 +1,15 @@
+meta {
+  name: Get All Listings
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}{{apiPrefix}}/listing/all
+  body: none
+  auth: none
+}
+
+headers {
+  accept: application/json
+}

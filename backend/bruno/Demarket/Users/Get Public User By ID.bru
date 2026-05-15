@@ -1,0 +1,15 @@
+meta {
+  name: Get Public User By ID
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}{{apiPrefix}}/users/{{userId}}/public
+  body: none
+  auth: none
+}
+
+headers {
+  accept: application/json
+}

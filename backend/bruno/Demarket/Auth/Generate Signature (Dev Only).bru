@@ -1,0 +1,21 @@
+meta {
+  name: Generate Signature (Dev Only)
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}{{apiPrefix}}/auth/generate-signature
+  body: json
+  auth: none
+}
+
+headers {
+  content-type: application/json
+}
+
+body:json {
+  {
+    "nonce": "{{nonce}}"
+  }
+}

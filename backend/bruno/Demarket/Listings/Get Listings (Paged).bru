@@ -1,0 +1,21 @@
+meta {
+  name: Get Listings (Paged)
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}{{apiPrefix}}/listing
+  body: none
+  auth: none
+}
+
+params:query {
+  category:
+  page: 1
+  pageSize: 20
+}
+
+headers {
+  accept: application/json
+}

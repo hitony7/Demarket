@@ -1,13 +1,12 @@
 // controllers/listingController.js
 
-import Listing from '../models/listings.js';
+import Listing from '../models/Listing.js';
 
 /**
  * Create a new listing
  * POST /api/listings
  */
 export const createListing = async (req, res) => {
-  console.log("Received request body:", req.body);
   try {
     const {
       title,
@@ -67,7 +66,7 @@ export const createListing = async (req, res) => {
       const errors = Object.values(error.errors).map((err) => err.message);
       res.status(400).json({ errors });
     } else {
-      console.error('Server Error:', error);
+      console.error('Error creating listing:', error);
       res.status(500).json({ message: 'Server error' });
     }
   }

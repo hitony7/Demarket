@@ -1,7 +1,6 @@
 // /controllers/userController.js
-import User from '../models/User.js'; // Assuming `User` is the default export
-import Listing from '../models/listings.js'; // Assuming `Listing` is the default export
-import jwt from 'jsonwebtoken'; // Default export from jsonwebtoken library
+import User from '../models/User.js';
+import Listing from '../models/Listing.js';
 import validator from 'validator'; // Default export from validator library
 
 
@@ -10,17 +9,12 @@ import validator from 'validator'; // Default export from validator library
 // @access  Private
 export const getUserById = async (req, res) => {
   try {
-      console.log('Received request to get user by ID:', req.params.id);
-
       const user = await User.findById(req.params.id, '-password');
-      console.log('User retrieval result:', user);
 
       if (!user) {
-          console.log('User not found for ID:', req.params.id);
           return res.status(404).json({ message: 'User not found' });
       }
 
-      console.log('Returning user data (without password):', user);
       res.json(user);
   } catch (error) {
       console.error('Error in getUserById:', error); // Log the exact error
@@ -33,15 +27,9 @@ export const getUserById = async (req, res) => {
 // @access  Public
 export const getUserByIdPublic = async (req, res) => {
   try {
-    console.log("Received request to get public user data for ID:", req.params.id);
-
-    // Attempt to find the user by ID and select only the public fields
     const user = await User.findById(req.params.id).select('username wallet rep createdAt bio links');
-    console.log("Database query complete");
 
-    // Check if the user was found
     if (!user) {
-      console.warn(`User with ID ${req.params.id} not found`);
       return res.status(404).json({ message: 'User not found' });
     }
 
@@ -55,7 +43,6 @@ export const getUserByIdPublic = async (req, res) => {
       links: user.links || null, // Return links or null if undefined
     };
 
-    console.log("Sending response:", responseData);
     res.json(responseData);
   } catch (error) {
     console.error("Error fetching public user data:", error); // Log the error for debugging
@@ -69,7 +56,7 @@ export const getUserByIdPublic = async (req, res) => {
 // @access  Public
 export const getUserByWalletAddressPublic = async (req, res) => {
   try {
-      const walletAddress = req.params.walletAddress.toLowerCase(); // Normalize to lowercase
+      const walletAddress = req.params.walletAddress.toLowerCase();
       
       // Finds any user document where `wallet` contains the `walletAddress`
       const user = await User.findOne({ wallet: walletAddress }).select('-password');
@@ -92,17 +79,12 @@ export const getAllListingsByUserId = async (req, res) => {
   try {
     const userId = req.params.id;
 
-    console.log("Fetching listings for user ID:", userId);
-
-    // Find all listings associated with the user ID
     const listings = await Listing.find({ sellerId: userId });
 
     if (!listings || listings.length === 0) {
-      console.warn(`No listings found for user ID: ${userId}`);
       return res.status(404).json({ message: 'No listings found for this user.' });
     }
 
-    console.log("Listings retrieved:", listings);
     res.json(listings);
   } catch (error) {
     console.error("Error fetching listings by user ID:", error);
@@ -118,9 +100,6 @@ export const updateUserById = async (req, res) => {
     const userId = req.params.id;
     const { username, bio, email, links } = req.body;
 
-    console.log("Received update request for user ID:", userId);
-
-    // Initialize an empty updates object
     const updates = {};
 
     // Check and validate each field
@@ -160,20 +139,15 @@ export const updateUserById = async (req, res) => {
       }
       updates.links = links;
     }
-    console.log("Validated updates:", updates);
-
-    // Update the user in the database
     const updatedUser = await User.findByIdAndUpdate(userId, updates, {
       new: true, // Return the updated document
       runValidators: true, // Run mongoose schema validations
     });
 
     if (!updatedUser) {
-      console.warn(`User with ID ${userId} not found`);
       return res.status(404).json({ message: 'User not found' });
     }
 
-    console.log("User successfully updated:", updatedUser);
     res.json({
       message: 'User updated successfully',
       user: updatedUser,

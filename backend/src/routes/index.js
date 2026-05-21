@@ -18,7 +18,7 @@ router.get('/', (req, res) => {
 });
 
 // Use '/listings' as the route prefix
- router.use('/listing', listingRoutes); 
+ router.use('/listings', listingRoutes); 
 
 // Use '/auth' as the route prefix
  router.use('/auth', authRoutes);

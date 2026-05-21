@@ -1,34 +1,21 @@
 import uploadToPinata from '../services/ipfsService.js';
-import Image from '../models/images.js';
-import Listing from '../models/listings.js';
+import Image from '../models/Image.js';
+import Listing from '../models/Listing.js';
 import mongoose from 'mongoose';
 
 export const uploadFileToIPFS = async (req, res) => {
   try {
-    console.log('Request Debug: Full Request Body:', req.body);
-    console.log('Request Debug: Multer File Object:', req.file);
-
     const file = req.file;
     if (!file) {
-      console.error('No file provided in the request.');
       return res.status(400).json({ error: 'No file uploaded' });
     }
 
-    console.log('Processing file for IPFS upload:', {
-      originalname: file.originalname,
-      mimetype: file.mimetype,
-      size: file.size,
-    });
-
-    // Call uploadToPinata and validate response
     const result = await uploadToPinata(file);
-    console.log('File uploaded successfully:', result);
     
     if (!result || !result.ipfsHash) {
       console.error('Upload to Pinata succeeded but returned an unexpected response:', result);
       return res.status(500).json({ error: 'Unexpected response from Pinata', details: result });
     }
-    // Send success response
     return res.status(200).json({
       message: 'File uploaded successfully',
       ipfsHash: result.ipfsHash,
@@ -36,13 +23,11 @@ export const uploadFileToIPFS = async (req, res) => {
     });
 
   } catch (error) {
-    // Log the error in detail
     console.error('IPFS Upload Error:', error.message);
     if (error.response) {
       console.error('Error Response from Pinata:', error.response.data);
     }
 
-    // Ensure we return an appropriate error response
     return res.status(500).json({
       error: error.message || 'Internal Server Error',
       details: error.response?.data || null,

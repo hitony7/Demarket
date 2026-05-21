@@ -15,8 +15,6 @@ const uploadToPinata = async (file) => {
       throw new Error('Missing Pinata API Key or Secret. Set them in the .env file.');
     }
 
-    console.log('Starting Pinata upload process...');
-    // Ensure the file is valid
     if (!file || !file.buffer) {
       throw new Error('Invalid file or file buffer.');
     }
@@ -26,7 +24,6 @@ const uploadToPinata = async (file) => {
     formData.append('pinataMetadata', JSON.stringify({ name: file.originalname }));
     formData.append('pinataOptions', JSON.stringify({ cidVersion: 1 }));
 
-    console.log('Sending request to Pinata...');
     const response = await axios.post('https://api.pinata.cloud/pinning/pinFileToIPFS', formData, {
       maxBodyLength: 'Infinity',
       headers: {
@@ -50,7 +47,7 @@ const uploadToPinata = async (file) => {
     if (error.response) {
       console.error('Pinata API Response:', error.response.data);
     }
-    throw error; // Re-throw error to be handled by caller
+    throw error;
   }
 };
 

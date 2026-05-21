@@ -8,27 +8,17 @@ const router = express.Router();
 const upload = multer({
   storage: multer.memoryStorage(), // Store files in memory
   fileFilter: (req, file, cb) => {
-    console.log('FileFilter Debug: Processing file:', {
-      fieldname: file.fieldname,
-      originalname: file.originalname,
-      mimetype: file.mimetype,
-      size: file.size || 'Size not available',
-    });
-
     const allowedFields = ['file', 'files'];
     const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif'];
 
     if (!allowedFields.includes(file.fieldname)) {
-      console.error(`FileFilter Error: Unexpected field: ${file.fieldname}`);
       return cb(new multer.MulterError('LIMIT_UNEXPECTED_FILE', file.fieldname));
     }
 
     if (!allowedMimeTypes.includes(file.mimetype)) {
-      console.error(`FileFilter Error: Unsupported file type: ${file.mimetype}`);
       return cb(new Error(`Unsupported file type: ${file.mimetype}`));
     }
 
-    console.log(`FileFilter Success: File accepted - ${file.originalname}`);
     cb(null, true); // Accept file
   },
 });
@@ -36,8 +26,6 @@ const upload = multer({
 
 // Route for single file upload
 router.post('/upload', upload.single('file'), async (req, res) => {
-  console.log('Multer Middleware Debug: req.file:', req.file);
-
   try {
     // Delegate request handling to the controller
     await fileController.uploadFileToIPFS(req, res);
@@ -56,7 +44,6 @@ router.post('/upload', upload.single('file'), async (req, res) => {
 // Route for multiple file uploads
 router.post('/upload-images', upload.array('files', 10), async (req, res, next) => {
   try {
-    console.log('Uploaded files:', req.files); // Debugging uploaded files
     await fileController.uploadImagesForListing(req, res);
   } catch (err) {
     next(err); // Pass errors to the error handler middleware

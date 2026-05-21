@@ -14,6 +14,13 @@ describe('ListingCardComponent', () => {
 
     fixture = TestBed.createComponent(ListingCardComponent);
     component = fixture.componentInstance;
+    component.listing = {
+      id: 'listing-id',
+      title: 'Test listing',
+      price: 1,
+      currency: 'ETH',
+    };
+    component.goToListing = () => {};
     fixture.detectChanges();
   });
 

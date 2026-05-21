@@ -3,7 +3,6 @@ dotenv.config(); // Load environment variables
 
 import User from '../models/User.js'; // Assuming you are exporting `User` as a default export
 import crypto from 'crypto';
-import * as ethUtil from 'ethereumjs-util';
 import jwt from 'jsonwebtoken';
 import { ethers } from 'ethers'; // Import ethers.js
 
@@ -81,29 +80,9 @@ export const verifySignature = async (req, res) => {
     }
 
     const message = `I am signing my one-time nonce: ${user.nonce}`;
-    console.log("Message to be hashed:", message);
+    console.log("Message to verify:", message);
 
-    // Hash the original message
-    const msgHash = ethUtil.hashPersonalMessage(Buffer.from(message));
-    console.log("Message hash:", msgHash.toString('hex'));
-
-    // Extract the signature parameters
-    const signatureBuffer = ethUtil.toBuffer(signature);
-    const signatureParams = ethUtil.fromRpcSig(signatureBuffer);
-    console.log("Signature parameters:", signatureParams);
-
-    // Recover public key
-    const publicKey = ethUtil.ecrecover(
-      msgHash,
-      signatureParams.v,
-      signatureParams.r,
-      signatureParams.s
-    );
-    console.log("Recovered public key:", publicKey.toString('hex'));
-
-    // Convert public key to address
-    const addressBuffer = ethUtil.publicToAddress(publicKey);
-    const recoveredAddress = ethUtil.bufferToHex(addressBuffer);
+    const recoveredAddress = ethers.verifyMessage(message, signature);
     console.log("Recovered address from signature:", recoveredAddress);
 
     // Compare the recovered address with the provided wallet address

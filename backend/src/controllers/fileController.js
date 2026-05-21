@@ -72,14 +72,14 @@ export const uploadImagesForListing = async (req, res) => {
 
     const uploadedImages = await Promise.all(
       files.map(async (file) => {
-        const ipfsResult = await uploadToPinata(file.buffer, { name: file.originalname });
+        const ipfsResult = await uploadToPinata(file);
         const imageData = {
           listingId,
-          ipfsHash: ipfsResult.IpfsHash,
+          ipfsHash: ipfsResult.ipfsHash,
           filename: file.originalname,
           mimeType: file.mimetype,
           size: file.size,
-          url: `https://ipfs.io/ipfs/${ipfsResult.IpfsHash}`,
+          url: ipfsResult.fileUrl,
         };
         return await Image.create(imageData);
       })

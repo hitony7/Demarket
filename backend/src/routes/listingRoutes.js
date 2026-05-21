@@ -1,11 +1,14 @@
 // /routes/listingRoutes.js
 import express from 'express';
+import multer from 'multer';
 import * as listingController from '../controllers/listingController.js';
 import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
+const upload = multer({ storage: multer.memoryStorage() });
+
 // POST /api/listings - Create a new listing (Protected)
-router.post('/', protect, listingController.createListing);
+router.post('/', protect, upload.single('image'), listingController.createListing);
 
 // GET /api/listings - Get all listings
 router.get('/all', listingController.getAllListings);

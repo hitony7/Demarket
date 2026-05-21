@@ -8,12 +8,13 @@ dotenv.config(); // Load environment variables
 const apiKey = process.env.PINATA_API_KEY;
 const apiSecret = process.env.PINATA_API_SECRET;
 const customGateway = 'https://tan-imperial-whale-861.mypinata.cloud/ipfs'; // Custom Pinata gateway
-if (!apiKey || !apiSecret) {
-  throw new Error('Missing Pinata API Key or Secret. Set them in the .env file.');
-}
 
 const uploadToPinata = async (file) => {
   try {
+    if (!apiKey || !apiSecret) {
+      throw new Error('Missing Pinata API Key or Secret. Set them in the .env file.');
+    }
+
     console.log('Starting Pinata upload process...');
     // Ensure the file is valid
     if (!file || !file.buffer) {

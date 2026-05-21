@@ -10,6 +10,9 @@
 node_modules/
 npm-debug.log
 yarn-error.log
+*.log
+*.err.log
+*.out.log
 
 #angular
 .angular/
@@ -41,6 +44,9 @@ yarn-error.log
 /libpeerconnection.log
 testem.log
 /typings
+
+# Local API client scratch exports
+/backend/bruno/asdfsdaf/
 
 # System files
 .DS_Store
